@@ -26,7 +26,7 @@ const HeroSection = () => {
         >
           <div className="text-left mb-4 ">
             <h1 className="text-white text-3xl md:text-5xl  font-bold leading-tight tracking-[-0.033em]">
-              Welcome to Tata&apos;s Sustainability Platform
+              Welcome to EcoMaterial Advisor, Tata&apos;s Sustainability Platform
             </h1>
             <h2 className="text-white text-sm md:text-base mt-2">
               Explore our industry-specific recommendations, insights, and join us for a sustainable future.

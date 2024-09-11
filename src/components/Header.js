@@ -34,7 +34,7 @@ const Header = () => {
         <a className="text-[#0d151c] text-sm font-medium" href="/">
           Home
         </a>
-        <a className="text-[#0d151c] text-sm font-medium" href="#">
+        <a className="text-[#0d151c] text-sm font-medium" href="/about-us">
           About Us
         </a>
         <a className="text-[#0d151c] text-sm font-medium" href="#">

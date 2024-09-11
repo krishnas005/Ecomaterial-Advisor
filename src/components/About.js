@@ -1,85 +1,84 @@
 "use client";
 
-import React from 'react';
-import { gsap } from 'gsap';
-// import { useEffect } from 'react';
-import { useLayoutEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Header from './Header';
+import { gsap } from 'gsap';
 
 const AboutUs = () => {
-
-    useLayoutEffect(() => {
-        if (document.querySelector('.hero')) {
-            gsap.from('.hero', { opacity: 0, y: -50, duration: 1, ease: 'power1.out' });
-        }
-        if (document.querySelectorAll('.feature-item').length > 0) {
-            gsap.from('.feature-item', { opacity: 0, scale: 0.9, stagger: 0.3, duration: 0.8, ease: 'power1.out' });
-        }
-    }, []);
-
+    const heroRef = useRef(null);
+    // useEffect(() => {
+    //     // Initialize GSAP animations
+    //     gsap.from('.hero-content', { opacity: 0, y: 50, duration: 1, ease: 'power1.out', stagger: 0.3 });
+    //     gsap.from('.feature-item', { opacity: 0, scale: 0.95, duration: 1, ease: 'power1.out', stagger: 0.2, delay: 0.5 });
+    //     gsap.from('.process-step', { opacity: 0, x: -50, duration: 1, ease: 'power1.out', stagger: 0.3, delay: 0.7 });
+    // }, []);
+    useEffect(() => {
+        gsap.fromTo(
+          heroRef.current,
+          { opacity: 0, y: -50 },
+          { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
+        );
+      }, []);
 
     return (
-        <div className="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden">
+        <div  className="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden">
             <Header />
-            <main className="px-4 flex flex-col md:px-40 py-5">
+            <main ref={heroRef} className="px-4 flex flex-col md:px-40 py-5">
                 <div className="hero flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl items-center justify-center p-4"
                     style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("https://cdn.usegalileo.ai/stability/729b48cb-f062-4227-9b38-56f8e24ae31c.png")' }}>
-                    <div className="flex flex-col gap-2 text-center">
-                        <h1 className="text-white text-4xl font-black leading-tight">EcoAuto</h1>
-                        <h2 className="text-white text-sm font-normal">The future of cars is here. We're creating a new era of sustainable, fully electric vehicles.</h2>
-                    </div>
-                    <div className="flex flex-col min-w-40 h-14 w-full max-w-[480px] md:h-16">
-                        <div className="flex w-full flex-1 items-stretch rounded-xl h-full">
-                            <div className="text-[#49779c] flex border border-[#cedde8] bg-slate-50 items-center justify-center pl-[15px] rounded-l-xl border-r-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                                    <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z" />
-                                </svg>
-                            </div>
-                            <input
-                                placeholder="Enter your email"
-                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d151c] focus:outline-0 focus:ring-0 border border-[#cedde8] bg-slate-50 focus:border-[#cedde8] h-full placeholder:text-[#49779c] px-[15px] rounded-r-none border-r-0 pr-2 rounded-l-none border-l-0 pl-2 text-sm font-normal"
-                            />
-                            <div className="flex items-center justify-center rounded-r-xl border-l-0 border border-[#cedde8] bg-slate-50 pr-[7px]">
-                                <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 md:h-12 md:px-5 bg-[#2094f3] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]">
-                                    <span className="truncate">Join the waitlist</span>
-                                </button>
-                            </div>
-                        </div>
+                    <div className="hero-content flex flex-col gap-2 px-8 md:px-16 md:pr-[150px]">
+                        <h1 className="text-white text-3xl md:text-5xl font-black leading-tight tracking-[-0.033em]">Our Mission</h1>
+                        <p className="text-white text-lg md:text-xl font-light">At EcoMaterial Advisor, our mission is to drive innovation and sustainability in the automotive industry. We provide an AI-driven platform that enhances material selection processes by balancing sustainability, performance, and cost-effectiveness.</p>
                     </div>
                 </div>
+
                 <section className="flex flex-col gap-10 px-4 py-10">
-                    <h1 className="text-[#0d151c] tracking-light text-[32px] font-bold leading-tight max-w-[720px]">Why Choose EcoAuto?</h1>
-                    <div className="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
-                        <div className="feature-item flex flex-col gap-3">
-                            <div
-                                className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
+                    <h1 className="text-[#0d151c] tracking-light text-[32px] font-bold leading-tight tracking-[-0.033em] max-w-[720px]">Why Choose EcoMaterial Advisor?</h1>
+                    <p className="text-lg text-gray-700">EcoMaterial Advisor is revolutionizing the way automotive companies select materials by integrating cutting-edge Generative AI technology. Our platform offers:</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
+                        <div className="feature-item flex flex-col items-center text-center">
+                            <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
                                 style={{ backgroundImage: 'url("https://cdn.usegalileo.ai/sdxl10/2a880df2-1845-4197-bd29-e30b2b1462be.png")' }}
                             />
+                            <h3 className="text-xl font-semibold text-gray-800 mt-4">Sustainable Material Choices</h3>
+                            <p className="text-gray-600">Utilize AI to recommend materials that balance sustainability with performance and cost-effectiveness.</p>
                         </div>
-                        <div className="feature-item flex flex-col gap-3">
-                            <div
-                                className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
+                        <div className="feature-item flex flex-col items-center text-center">
+                            <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
                                 style={{ backgroundImage: 'url("https://cdn.usegalileo.ai/sdxl10/363c705c-a605-46b3-890c-b45dfa2eafd4.png")' }}
                             />
+                            <h3 className="text-xl font-semibold mt-4 text-gray-800">AI-Driven Insights</h3>
+                            <p className="text-gray-600">Gain data-driven insights on material properties, compliance, and market trends to make informed decisions.</p>
                         </div>
-                        <div className="feature-item flex flex-col gap-3">
-                            <div
-                                className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
+                        <div className="feature-item flex flex-col items-center text-center">
+                            <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
                                 style={{ backgroundImage: 'url("https://cdn.usegalileo.ai/sdxl10/77a31f07-c2f4-407f-b3ea-9389d615b3b6.png")' }}
                             />
+                            <h3 className="text-xl font-semibold mt-4 text-gray-800">Seamless Integration</h3>
+                            <p className="text-gray-600">Integrate easily with existing tools and platforms for a smooth workflow transition.</p>
                         </div>
                     </div>
                 </section>
+
                 <section className="flex flex-col gap-10 px-4 py-10">
-                    <h1 className="text-[#0d151c] tracking-light text-[32px] font-bold leading-tight max-w-[720px]">What People Are Saying</h1>
-                    <div className="flex flex-col justify-end gap-6 px-4 py-10 md:gap-8 md:px-10 md:py-20">
-                        <div className="flex flex-col gap-2 text-center">
-                            <h1 className="text-[#0d151c] tracking-light text-[32px] font-bold leading-tight max-w-[720px]">Join the waitlist and be the first to experience EcoAuto.</h1>
+                    <h1 className="text-[#0d151c] tracking-light text-[32px] font-bold leading-tight max-w-[720px]">How EcoMaterial Advisor Recommends Materials</h1>
+                    <p className="text-lg text-gray-700 mb-6">Our platform uses Generative AI that takes multiple user-defined inputs, such as desired material properties, environmental impact goals, cost constraints, and more, to deliver tailored material recommendations:</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-4">
+                        <div className="process-step flex flex-col items-center text-center bg-white p-6 rounded-xl shadow-md">
+                            <h3 className="text-xl font-semibold mb-4 text-gray-800">Step 1: Define Your Requirements</h3>
+                            <p className="text-gray-600">Users input specific criteria such as strength, durability, weight, environmental impact, and budget.</p>
                         </div>
-                        <div className="flex flex-1 justify-center">
-                            <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 md:h-12 md:px-5 bg-[#2094f3] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]">
-                                <span className="truncate">Join the waitlist</span>
-                            </button>
+                        <div className="process-step flex flex-col items-center text-center bg-white p-6 rounded-xl shadow-md">
+                            <h3 className="text-xl font-semibold mb-4 text-gray-800">Step 2: AI Analysis</h3>
+                            <p className="text-gray-600">Our AI model processes the input data, cross-referencing with an extensive database of materials, to find the best matches.</p>
+                        </div>
+                        <div className="process-step flex flex-col items-center text-center bg-white p-6 rounded-xl shadow-md">
+                            <h3 className="text-xl font-semibold mb-4 text-gray-800">Step 3: Tailored Recommendations</h3>
+                            <p className="text-gray-600">Receive a list of recommended materials that meet your unique requirements, complete with detailed analysis and comparisons.</p>
+                        </div>
+                        <div className="process-step flex flex-col items-center text-center bg-white p-6 rounded-xl shadow-md">
+                            <h3 className="text-xl font-semibold mb-4 text-gray-800">Step 4: Optimize Your Choice</h3>
+                            <p className="text-gray-600">Utilize our platform&apos;s tools to further refine choices, ensuring optimal material selection for your specific use case.</p>
                         </div>
                     </div>
                 </section>
