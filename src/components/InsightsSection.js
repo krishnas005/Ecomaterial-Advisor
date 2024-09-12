@@ -15,7 +15,7 @@ const InsightsSection = () => {
   }, []);
 
   return (
-    <div className="px-4 py-10 flex flex-col gap-10">
+    <div id="explore" className="px-4 py-10 flex flex-col gap-10">
       <h1 className="text-[#0d151c] text-[32px] font-bold leading-tight md:text-4xl max-w-[720px]">
         Industry-Specific Insights
       </h1>

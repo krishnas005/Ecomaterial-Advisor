@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import Link from 'next/link';
 
 const HeroSection = () => {
   const heroRef = useRef(null);
@@ -32,9 +33,9 @@ const HeroSection = () => {
               Explore our industry-specific recommendations, insights, and join us for a sustainable future.
             </h2>
           </div>
-          <button className="self-start px-4 py-2 bg-[#2094f3] text-white rounded-md mt-4">
+          <Link href="#explore" className="self-start px-4 py-2 bg-[#2094f3] text-white rounded-md mt-4">
             Explore Now
-          </button>
+          </Link>
         </div>
       </div>
     </div>
