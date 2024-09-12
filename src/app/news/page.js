@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import Header from "../../components/Header";
+import Footer from '@/components/Footer';
 
 const News = () => {
 
@@ -88,6 +89,7 @@ const News = () => {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 };

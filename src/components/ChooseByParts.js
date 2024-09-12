@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { useFadeInEffect } from '../components/animations';
 import { useRef, useState } from 'react';
 
-export default function Home() {
+export default function ChooseByParts() {
   const [selectedPart, setSelectedPart] = useState(null);
   const [propertyFilters, setPropertyFilters] = useState([]);
   const [propertyValues, setPropertyValues] = useState({});

@@ -1,18 +1,5 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-import Link from "next/link";
-
-// const geistSans = localFont({
-//   src: "./fonts/GeistVF.woff",
-//   variable: "--font-geist-sans",
-//   weight: "100 900",
-// });
-// const geistMono = localFont({
-//   src: "./fonts/GeistMonoVF.woff",
-//   variable: "--font-geist-mono",
-//   weight: "100 900",
-// });
+import type { Metadata } from "next"; 
+import "./globals.css"; 
 
 export const metadata: Metadata = {
   title: "EcoMaterial Advisor",
@@ -27,9 +14,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-      <div className="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style={{ fontFamily: '"Work Sans", "Noto Sans", sans-serif' }}>
-      <div className="layout-container flex h-full grow flex-col">{children}</div>
-    </div>
+        <div className="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style={{ fontFamily: '"Work Sans", "Noto Sans", sans-serif' }}>
+          <div className="layout-container flex h-full grow flex-col">{children}</div>
+        </div>
       </body>
     </html>
   );

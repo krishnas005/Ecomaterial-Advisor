@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import Header from './Header';
 import { gsap } from 'gsap';
+import Footer from './Footer';
 
 const AboutUs = () => {
     const heroRef = useRef(null);
@@ -83,6 +84,7 @@ const AboutUs = () => {
                     </div>
                 </section>
             </main>
+            <Footer />
         </div>
     );
 };
