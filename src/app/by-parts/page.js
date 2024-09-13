@@ -6,6 +6,7 @@ import { useFadeInEffect } from "@/components/animations";
 import { useRef, useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import EarthCanvas from '@/components/CarModel'
 
 export default function ChooseByParts() {
     const [selectedPart, setSelectedPart] = useState(null);
@@ -14,7 +15,7 @@ export default function ChooseByParts() {
     const resultRef = useRef(null);
 
     useFadeInEffect(resultRef); 
-
+    
     const carParts = [
         { value: "hood", label: "Hood" },
         { value: "door", label: "Door" },
@@ -22,9 +23,9 @@ export default function ChooseByParts() {
     ];
 
     const materialProperties = [
-        { value: "tensile-strength", label: "Tensile Strength" },
-        { value: "ductility", label: "Ductility" },
-        { value: "impact-resistance", label: "Impact Resistance" },
+        { value: "tensile-strength", label: "Tensile Strength(in unit)" },
+        { value: "ductility", label: "Ductility (in unit)" },
+        { value: "impact-resistance", label: "Impact Resistance (in unit)" },
     ];
  
     const handlePartChange = (selectedOption) => {
@@ -59,8 +60,10 @@ export default function ChooseByParts() {
                 <h2 className="text-4xl font-semibold mb-8 text-center text-blue-700">
                     Material Recommendation by Car Part
                 </h2>
+
+                <EarthCanvas />
  
-                <section className="animated-section bg-gradient-to-r from-blue-400 to-indigo-500 text-white p-8 rounded-lg shadow-md mb-12 hover:shadow-xl transition-shadow duration-300">
+                <section className="animated-section bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-8 rounded-lg shadow-md mb-12 hover:shadow-xl transition-shadow duration-300">
                     <h3 className="text-2xl font-semibold mb-6">Select a Car Part</h3>
                     <Select
                         options={carParts}
@@ -92,7 +95,7 @@ export default function ChooseByParts() {
                                         onChange={(e) =>
                                             handleValueChange(filter.value, e.target.value)
                                         }
-                                        className="mt-2 p-3 border border-gray-300 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="mt-2 p-3 border text-gray-500 border-gray-300 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         placeholder={`Enter value for ${filter.label}`}
                                     />
                                 </div>
@@ -115,6 +118,7 @@ export default function ChooseByParts() {
                     Prefer to find materials by properties only? Click here.
                 </a>
             </main>
+            
             <Footer />
         </div>
     );

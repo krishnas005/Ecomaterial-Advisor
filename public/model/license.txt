@@ -1,0 +1,11 @@
+Model Information:
+* title:	Tata Punch
+* source:	https://sketchfab.com/3d-models/tata-punch-1a85da7678ba4f708cfbee0d9303c5d7
+* author:	RahulD (https://sketchfab.com/rahuld)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Tata Punch" (https://sketchfab.com/3d-models/tata-punch-1a85da7678ba4f708cfbee0d9303c5d7) by RahulD (https://sketchfab.com/rahuld) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
