@@ -22,7 +22,7 @@ const HeroSection = () => {
           className="relative overflow-hidden rounded-xl bg-cover bg-center bg-no-repeat flex flex-col justify-end px-6 md:px-14 pb-10 h-[400px]"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url('https://cdn.usegalileo.ai/sdxl10/b4e10070-2c81-433f-bec2-47e2abd38efa.png')",
+              "linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url('/ecoImage.jpg')",
           }}
         >
           <div className="text-left mb-4 ">

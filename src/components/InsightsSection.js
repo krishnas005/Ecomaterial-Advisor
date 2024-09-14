@@ -32,13 +32,13 @@ const InsightsSection = () => {
           {
             title: "Aerospace Industry",
             description: "Get insights and recommendations for sustainable aviation.",
-            image: "https://cdn.usegalileo.ai/sdxl10/2e2e8b03-fd74-4f6b-b93b-06d0b9d1d1de.png",
+            image: "/aerospace.jpg",
             link: '/by-parts'
           },
           {
             title: "Construction Sector",
             description: "Find sustainable solutions for construction projects.",
-            image: "https://cdn.usegalileo.ai/sdxl10/c23246a3-4884-4d5f-ae44-b35b57f9b7d2.png",
+            image: "/kuchToh.jpg",
             link: '/by-parts'
           },
         ].map((card, index) => (
