@@ -3,8 +3,7 @@ import User from '../../../models/model';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
+export async function POST(req, res) {
     await dbConnect();
 
     const { email, password } = req.body;
@@ -32,8 +31,4 @@ export default async function handler(req, res) {
     } catch (error) {
       res.status(500).json({ message: 'Something went wrong' });
     }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
 }
