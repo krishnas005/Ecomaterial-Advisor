@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import { gsap } from "gsap";
 import { TextField, Button, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -14,7 +13,7 @@ const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [employeeId, setEmployeeId] = useState('');
-  const [error, setError] = useState('');
+  const error = 'All fields are Mandatory';
 
   useEffect(() => {
     gsap.fromTo(
@@ -28,20 +27,6 @@ const SignupPage = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(''); 
-
-    try {
-        await axios.post('/api/signup', { name, email, password, employeeId });
- 
-      // localStorage.setItem('token', res.data.token);
-
-      alert('Signup successful'); 
-    } catch (error) {
-      setError(error.response?.data?.message || 'Signup failed');
-    }
-  };
 
   return (
     <div>
@@ -63,7 +48,7 @@ const SignupPage = () => {
             <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
               Create an Account
             </h2>
-            <form onSubmit={handleSubmit}>
+            <form>
               <div className="mb-2">
                 <TextField
                   label="Name"
