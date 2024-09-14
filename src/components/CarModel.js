@@ -1,23 +1,20 @@
 'use client';
 
 import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import 'tailwindcss/tailwind.css';
-import { usePart } from "../context/PathContext";
-import { ClipLoader } from 'react-spinners'; 
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useLoader } from "@react-three/fiber";
+import { usePart } from '../context/PathContext';
+import { ClipLoader } from 'react-spinners';
 
 const CarModel = () => {
-  // const carModel = useGLTF('/untitled.glb');
-  const carModel = useLoader(GLTFLoader, "/untitled.glb");
+  const carModel = useGLTF('/untitled.glb');
   const { selectedPart, setSelectedPart } = usePart();
-  const [hoveredPart, setHoveredPart] = useState(null); // For hover tooltip
-  const [hoverPosition, setHoverPosition] = useState(null); // Store screen position of hovered part
-  const [isLoading, setIsLoading] = useState(false); // Add loading state
+  const [hoveredPart, setHoveredPart] = useState(null);
+  const [hoverPosition, setHoverPosition] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const carRef = useRef();
 
   // GSAP animation to move the car initially
@@ -25,7 +22,7 @@ const CarModel = () => {
     if (carRef.current) {
       gsap.fromTo(
         carRef.current.position,
-        { x: 10, y: 5, z: 10 },
+        { x: 2, y: 5, z: 4 },
         { x: 0, y: 0, z: 0, duration: 2, ease: 'power2.out' }
       );
     }
@@ -33,39 +30,38 @@ const CarModel = () => {
 
   // Handle part selection from child
   const handlePartSelect = (part) => {
-    setSelectedPart(null);  // Reset the selected part to ensure fresh loading state
-    setIsLoading(true);     // Start loading
+    setSelectedPart(null); // Reset the selected part to ensure fresh loading state
+    setIsLoading(true); // Start loading
 
-    // Simulate a delay for data fetch (e.g., API call)
     setTimeout(() => {
-      setSelectedPart(part);  // Set the selected part once loading is complete
-      setIsLoading(false);    // Stop loading
+      setSelectedPart(part); // Set the selected part once loading is complete
+      setIsLoading(false); // Stop loading
     }, 1500); // Delay time to simulate data fetching
   };
 
   return (
-    <div className="relative h-screen flex flex-col">
+    <div className="relative flex flex-col h-screen bg-gray-100">
       {/* Top part with 3D model */}
-      <div className="w-full h-3/4 flex">
-        <div className="w-3/4 h-full">
+      <div className="w-full h-3/4 flex items-center justify-center">
+        <div className="relative w-full h-full max-w-screen-lg">
           <Canvas
-            frameloop="demand"
-            camera={{ position: [-4, 3, 10], fov: 60, near: 0.01, far: 1000 }}
+            className="w-full h-full"
+            camera={{ position: [-6, 3, 10], fov: 40, near: 0.01, far: 1000 }}
           >
             <OrbitControls
               autoRotate
               enableZoom={true}
-              enablePan={true}
-              autoRotateSpeed={0}
-              minDistance={8}
+              enablePan={false}
+              autoRotateSpeed={1}
+              minDistance={10}
               maxDistance={18}
             />
-            <ambientLight intensity={3} />
-            <directionalLight position={[5, 5, 5]} intensity={2.5} />
+            <ambientLight intensity={0.8} />
+            <directionalLight position={[5, 5, 5]} intensity={2} />
             <spotLight position={[10, 10, 10]} angle={0.3} penumbra={1} intensity={2} />
 
             {/* Car Model with GSAP animation */}
-            <primitive ref={carRef} object={carModel.scene} scale={1.8} />
+            <primitive ref={carRef} object={carModel.scene} scale={1.5} />
 
             {/* Handle interaction and hover detection */}
             <InteractiveCar
@@ -79,11 +75,11 @@ const CarModel = () => {
           {/* Tooltip for hovered car part */}
           {hoveredPart && hoverPosition && (
             <div
-              className="absolute bg-gray-800 text-white text-sm px-4 py-2 font-bold rounded-md shadow-lg"
+              className="absolute bg-gray-900 text-white text-sm px-2 py-1 rounded-md shadow-md"
               style={{
                 left: `${hoverPosition.x}px`,
                 top: `${hoverPosition.y}px`,
-                transform: 'translate(-50%, -120%)',
+                transform: 'translate(-50%, -150%)',
               }}
             >
               {hoveredPart}
@@ -93,18 +89,18 @@ const CarModel = () => {
       </div>
 
       {/* Bottom part for material recommendations */}
-      <div className="w-full h-1/4 flex justify-center items-center">
-        <div className="w-11/12 max-w-3xl bg-white p-6 rounded-lg shadow-2xl">
+      <div className="w-full h-1/4 flex justify-center items-center bg-white shadow-lg">
+        <div className="w-11/12 max-w-4xl p-6 rounded-lg">
           {isLoading ? (
             <div className="flex justify-center items-center h-full">
-              <ClipLoader color="#3498db" size={50} /> {/* Loader while loading */}
+              <ClipLoader color="#3498db" size={50} />
             </div>
           ) : selectedPart ? (
             <>
               <div className="text-xl font-bold text-gray-800 mb-4">
                 Selected Part: {selectedPart}
               </div>
-              <div className="text-lg font-semibold text-gray-700 mb-2">Recommended Materials</div>
+              <div className="text-lg font-semibold text-gray-700 mb-4">Recommended Materials</div>
               <ul className="grid grid-cols-3 gap-4">
                 <li className="bg-blue-500 text-white text-center px-4 py-2 rounded-lg shadow-md hover:bg-blue-600">
                   Material 1
@@ -128,10 +124,11 @@ const CarModel = () => {
   );
 };
 
+// Handles the hover and click interaction with the car model
 const InteractiveCar = ({ carModel, setHoveredPart, setHoverPosition, onPartSelect }) => {
   const raycaster = useRef(new THREE.Raycaster());
   const mouse = useRef(new THREE.Vector2());
-  const { camera, gl } = useThree(); // Access camera, renderer, and scene
+  const { camera, gl } = useThree();
 
   useEffect(() => {
     const handlePointerMove = (event) => {
@@ -143,7 +140,7 @@ const InteractiveCar = ({ carModel, setHoveredPart, setHoverPosition, onPartSele
 
       if (intersects.length > 0) {
         const hoveredPart = intersects[0].object;
-        setHoveredPart(hoveredPart.name); // Set the name of the hovered part
+        setHoveredPart(hoveredPart.name);
 
         const partPosition = hoveredPart.getWorldPosition(new THREE.Vector3());
         const screenPosition = partPosition.clone().project(camera);
@@ -165,20 +162,20 @@ const InteractiveCar = ({ carModel, setHoveredPart, setHoverPosition, onPartSele
 
       if (intersects.length > 0) {
         const selectedPart = intersects[0].object.name;
-        onPartSelect(selectedPart); // Use the callback to set selected part in the parent
+        onPartSelect(selectedPart);
       }
     };
 
     gl.domElement.addEventListener('pointermove', handlePointerMove);
-    gl.domElement.addEventListener('pointerdown', handlePointerClick); // Listen for clicks to select parts
+    gl.domElement.addEventListener('pointerdown', handlePointerClick);
 
     return () => {
       gl.domElement.removeEventListener('pointermove', handlePointerMove);
-      gl.domElement.removeEventListener('pointerdown', handlePointerClick); // Clean up event listener
+      gl.domElement.removeEventListener('pointerdown', handlePointerClick);
     };
   }, [camera, gl, carModel, setHoveredPart, setHoverPosition, onPartSelect]);
 
-  return null; // This component only handles interaction logic
+  return null;
 };
 
 export default CarModel;

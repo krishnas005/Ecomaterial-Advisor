@@ -7,12 +7,24 @@ import Link from 'next/link';
 const InsightsSection = () => {
   const cardsRef = useRef([]);
 
-  useEffect(() => {
+  useEffect(() => { 
     gsap.fromTo(
       cardsRef.current,
       { opacity: 0, y: 50 },
       { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: 'power2.out' }
     );
+ 
+    cardsRef.current.forEach((card) => {
+      gsap.set(card, { transformOrigin: 'center' });
+
+      card.addEventListener('mouseenter', () => {
+        gsap.to(card, { scale: 0.95, duration: 0.3, ease: 'power2.out' });
+      });
+
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, { scale: 1, duration: 0.3, ease: 'power2.out' });
+      });
+    });
   }, []);
 
   return (
@@ -21,12 +33,11 @@ const InsightsSection = () => {
         Industry-Specific Insights
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
- 
         {[
           {
             title: "Automobile Industry",
             description: "Explore our tailored recommendations for the automobile industry.",
-            image: "https://cdn.usegalileo.ai/sdxl10/28192786-b326-4ef8-9303-1157b75fd4a7.png",
+            image: "/img.jpg",
             link: '/by-parts'
           },
           {

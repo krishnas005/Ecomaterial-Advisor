@@ -17,7 +17,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-[#0d151c] text-white py-6 mt-10 px-4 md:px-10">
+    <footer className="bg-[#0d151c] text-white py-6 pt-10 px-4 md:px-10">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-start">
         <div className="mb-8 md:mb-0">
           <h3 className="text-lg font-bold mb-4">Tata Sustainability</h3>
