@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import { NextResponse } from "next/server";
 
 
-export default async function POST(req) {
+export async function POST(req) {
   await dbConnect();
   try {
     const reqBody = await req.json()
