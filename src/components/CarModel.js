@@ -1,16 +1,19 @@
 'use client';
 
 import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import 'tailwindcss/tailwind.css';
 import { usePart } from "../context/PathContext";
-import { ClipLoader } from 'react-spinners'; // Import the loader component
+import { ClipLoader } from 'react-spinners'; 
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { useLoader } from "@react-three/fiber";
 
 const CarModel = () => {
-  const carModel = useGLTF('model/untitled.glb');
+  // const carModel = useGLTF('/untitled.glb');
+  const carModel = useLoader(GLTFLoader, "/untitled.glb");
   const { selectedPart, setSelectedPart } = usePart();
   const [hoveredPart, setHoveredPart] = useState(null); // For hover tooltip
   const [hoverPosition, setHoverPosition] = useState(null); // Store screen position of hovered part
