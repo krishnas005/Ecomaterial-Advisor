@@ -1,5 +1,6 @@
-import type { Metadata } from "next"; 
-import "./globals.css"; 
+import type { Metadata } from "next";
+import "./globals.css";
+import { PartProvider } from '@/context/PathContext';
 
 export const metadata: Metadata = {
   title: "EcoMaterial Advisor",
@@ -14,9 +15,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style={{ fontFamily: '"Work Sans", "Noto Sans", sans-serif' }}>
-          <div className="layout-container flex h-full grow flex-col">{children}</div>
-        </div>
+        <PartProvider>
+          <div className="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style={{ fontFamily: '"Work Sans", "Noto Sans", sans-serif' }}>
+            <div className="layout-container flex h-full grow flex-col">{children}</div>
+          </div>
+        </PartProvider>
       </body>
     </html>
   );

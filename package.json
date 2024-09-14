@@ -27,6 +27,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-select": "^5.8.0",
+    "react-spinners": "^0.14.1",
     "three": "^0.168.0"
   },
   "devDependencies": {
