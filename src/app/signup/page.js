@@ -33,7 +33,7 @@ const SignupPage = () => {
     setError(''); 
 
     try {
-      const res = await axios.post('/api/signup', { name, email, password, employeeId });
+        await axios.post('/api/signup', { name, email, password, employeeId });
  
       // localStorage.setItem('token', res.data.token);
 

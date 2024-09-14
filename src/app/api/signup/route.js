@@ -1,10 +1,10 @@
 import dbConnect from '../../../dbConfig/config';
 import User from '../../../models/model';
 import bcrypt from 'bcryptjs';
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 
-export default async function POST(req: NextRequest) {
+export default async function POST(req) {
   await dbConnect();
   try {
     const reqBody = await req.json()
@@ -30,7 +30,7 @@ export default async function POST(req: NextRequest) {
       { message: "User created successfully" },
       { status: 201 }
     )
-  } catch (err: any) {
+  } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

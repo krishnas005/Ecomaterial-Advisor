@@ -38,6 +38,7 @@ export default function ChooseByParts() {
       ...prevValues,
       [property]: value,
     }));
+    console.log(propertyValues)
   };
 
   return (
