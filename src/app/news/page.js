@@ -57,8 +57,8 @@ const News = () => {
                     <p className="text-white text-lg md:text-xl font-light">Stay updated with the latest trends and revolutions in manufacturing due to new materials.</p>
                 </div>
 
-                <section className="flex flex-col gap-10">
-                    <h2 className="text-[#0d151c] text-2xl md:text-3xl font-bold leading-tight mb-6">Recent Articles</h2>
+                <section className="flex flex-col gap-6">
+                    <h2 className="text-[#0d151c] text-2xl md:text-3xl font-bold leading-tight">Recent Articles</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {articles.map((article, index) => (
                             <div

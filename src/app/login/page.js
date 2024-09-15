@@ -11,7 +11,8 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const error = 'All fields are Mandatory';
+  // const error = 'All fields are Mandatory';
+  const error = ''
 
   useEffect(() => {
     gsap.fromTo(
@@ -31,7 +32,7 @@ const LoginPage = () => {
       <div className="flex flex-col md:flex-row min-h-screen"> 
         <div className="hidden md:flex w-full md:w-1/2 bg-gradient-to-r from-green-400 to-blue-500 items-center justify-center">
           <img
-            src="https://source.unsplash.com/featured/?nature,sustainability"
+            src="/image.jpg"
             alt="Login Page Image"
             className="w-full h-full object-cover"
           />

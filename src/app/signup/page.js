@@ -13,7 +13,8 @@ const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [employeeId, setEmployeeId] = useState('');
-  const error = 'All fields are Mandatory';
+  // const error = 'All fields are Mandatory';
+  const error = ''
 
   useEffect(() => {
     gsap.fromTo(
@@ -31,15 +32,9 @@ const SignupPage = () => {
   return (
     <div>
       <Header />
-      <div className="flex flex-col md:flex-row min-h-screen"> 
-        <div className="hidden md:flex w-full md:w-1/2 bg-gradient-to-r from-purple-400 to-pink-500 items-center justify-center">
-          <img
-            src="https://source.unsplash.com/featured/?teamwork,innovation"
-            alt="Signup Page Image"
-            className="w-full h-full object-cover"
-          />
-        </div>
- 
+      <div className="flex flex-col md:flex-row min-h-screen">
+        
+
         <div
           ref={signupRef}
           className="flex w-full md:w-1/2 items-center justify-center p-8 bg-white"
@@ -124,6 +119,13 @@ const SignupPage = () => {
               </a>
             </p>
           </div>
+        </div>
+        <div className="hidden md:flex w-full md:w-1/2 bg-gradient-to-r from-purple-400 to-pink-500 items-center justify-center">
+          <img
+            src="/image.jpg"
+            alt="Signup Page Image"
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
     </div>
