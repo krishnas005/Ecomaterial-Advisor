@@ -3,7 +3,7 @@
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import gsap from 'gsap';
 import 'tailwindcss/tailwind.css';
 import { usePart } from '../context/PathContext';
@@ -23,21 +23,30 @@ const CarModel = () => {
       gsap.fromTo(
         carRef.current.position,
         { x: 2, y: 5, z: 4 },
-        { x: 0, y: 0, z: 0, duration: 2, ease: 'power2.out' }
+        { x: 0, y: 0, z: 0, duration: 1.5, ease: 'power2.out' }
       );
     }
   }, []);
 
-  // Handle part selection from child
-  const handlePartSelect = (part) => {
-    setSelectedPart(null); // Reset the selected part to ensure fresh loading state
-    setIsLoading(true); // Start loading
+  // Optimized Part Selection Handler
+  const handlePartSelect = useCallback(
+    (part) => {
+      if (!part) return;
+      setSelectedPart(null); // Reset before loading the new part
+      setIsLoading(true);
 
-    setTimeout(() => {
-      setSelectedPart(part); // Set the selected part once loading is complete
-      setIsLoading(false); // Stop loading
-    }, 1500); // Delay time to simulate data fetching
-  };
+      // Simulate loading process asynchronously
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(part);
+        }, 1000); // Reduced delay to 1 second
+      }).then((selected) => {
+        setSelectedPart(selected);
+        setIsLoading(false);
+      });
+    },
+    [setSelectedPart]
+  );
 
   return (
     <div className="relative flex flex-col h-screen bg-gray-100">
@@ -52,13 +61,13 @@ const CarModel = () => {
               autoRotate
               enableZoom={true}
               enablePan={false}
-              autoRotateSpeed={1}
+              autoRotateSpeed={1.2} // Slightly faster rotation for better UX
               minDistance={10}
               maxDistance={18}
             />
-            <ambientLight intensity={0.8} />
-            <directionalLight position={[5, 5, 5]} intensity={2} />
-            <spotLight position={[10, 10, 10]} angle={0.3} penumbra={1} intensity={2} />
+            <ambientLight intensity={0.9} />
+            <directionalLight position={[5, 5, 5]} intensity={2.5} />
+            <spotLight position={[10, 10, 10]} angle={0.3} penumbra={1} intensity={2.5} />
 
             {/* Car Model with GSAP animation */}
             <primitive ref={carRef} object={carModel.scene} scale={1.5} />
@@ -130,42 +139,43 @@ const InteractiveCar = ({ carModel, setHoveredPart, setHoverPosition, onPartSele
   const mouse = useRef(new THREE.Vector2());
   const { camera, gl } = useThree();
 
+  // Optimized event handler to reduce excessive rendering
+  const handlePointerMove = useCallback((event) => {
+    mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.current.setFromCamera(mouse.current, camera);
+    const intersects = raycaster.current.intersectObjects(carModel.scene.children, true);
+
+    if (intersects.length > 0) {
+      const hoveredPart = intersects[0].object;
+      setHoveredPart(hoveredPart.name);
+
+      const partPosition = hoveredPart.getWorldPosition(new THREE.Vector3());
+      const screenPosition = partPosition.clone().project(camera);
+      const x = (screenPosition.x * 0.5 + 0.5) * window.innerWidth;
+      const y = (-screenPosition.y * 0.5 + 0.5) * window.innerHeight;
+      setHoverPosition({ x, y });
+    } else {
+      setHoveredPart(null);
+      setHoverPosition(null);
+    }
+  }, [camera, carModel.scene.children, setHoveredPart, setHoverPosition]);
+
+  const handlePointerClick = useCallback((event) => {
+    mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.current.setFromCamera(mouse.current, camera);
+    const intersects = raycaster.current.intersectObjects(carModel.scene.children, true);
+
+    if (intersects.length > 0) {
+      const selectedPart = intersects[0].object.name;
+      onPartSelect(selectedPart);
+    }
+  }, [camera, carModel.scene.children, onPartSelect]);
+
   useEffect(() => {
-    const handlePointerMove = (event) => {
-      mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-      raycaster.current.setFromCamera(mouse.current, camera);
-      const intersects = raycaster.current.intersectObjects(carModel.scene.children, true);
-
-      if (intersects.length > 0) {
-        const hoveredPart = intersects[0].object;
-        setHoveredPart(hoveredPart.name);
-
-        const partPosition = hoveredPart.getWorldPosition(new THREE.Vector3());
-        const screenPosition = partPosition.clone().project(camera);
-        const x = (screenPosition.x * 0.5 + 0.5) * window.innerWidth;
-        const y = (-screenPosition.y * 0.5 + 0.5) * window.innerHeight;
-        setHoverPosition({ x, y });
-      } else {
-        setHoveredPart(null);
-        setHoverPosition(null);
-      }
-    };
-
-    const handlePointerClick = (event) => {
-      mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-      raycaster.current.setFromCamera(mouse.current, camera);
-      const intersects = raycaster.current.intersectObjects(carModel.scene.children, true);
-
-      if (intersects.length > 0) {
-        const selectedPart = intersects[0].object.name;
-        onPartSelect(selectedPart);
-      }
-    };
-
     gl.domElement.addEventListener('pointermove', handlePointerMove);
     gl.domElement.addEventListener('pointerdown', handlePointerClick);
 
@@ -173,7 +183,7 @@ const InteractiveCar = ({ carModel, setHoveredPart, setHoverPosition, onPartSele
       gl.domElement.removeEventListener('pointermove', handlePointerMove);
       gl.domElement.removeEventListener('pointerdown', handlePointerClick);
     };
-  }, [camera, gl, carModel, setHoveredPart, setHoverPosition, onPartSelect]);
+  }, [gl.domElement, handlePointerMove, handlePointerClick]);
 
   return null;
 };
