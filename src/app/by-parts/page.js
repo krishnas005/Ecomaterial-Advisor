@@ -1,5 +1,4 @@
 "use client";
-
 import Select from "react-select";
 import gsap from "gsap";
 import { useRef, useState, useEffect } from "react";
@@ -7,15 +6,21 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CarModel from "@/components/CarModel";
 import { usePart } from "../../context/PathContext";
+import { Pie } from "react-chartjs-2";
+import { FaQuestionCircle } from "react-icons/fa"; 
+
 
 export default function ChooseByParts() {
   const [propertyFilters, setPropertyFilters] = useState([]);
   const [propertyValues, setPropertyValues] = useState({});
   const [recommendations, setRecommendations] = useState([]);
+  const [visibleDescription, setVisibleDescription] = useState(null); 
+  const [report, setReport] = useState(null);
   const resultRef = useRef(null);
   const { selectedPart, setSelectedPart } = usePart();
 
   useEffect(() => {
+    // Animating section appearance
     gsap.fromTo(
       ".animated-section",
       { opacity: 0, y: 50 },
@@ -23,48 +28,55 @@ export default function ChooseByParts() {
     );
   }, [selectedPart]);
 
+  useEffect(() => {
+    // Clear inputs and recommendations when a new part is selected
+    setPropertyFilters([]);
+    setPropertyValues({});
+    setRecommendations([]);
+  }, [selectedPart]);
+
   const materialProperties = [
-    { value: "tensile_strength", label: "Tensile Strength (MPa)" },
-    { value: "impact_resistance", label: "Impact Resistance (J/m²)" },
-    { value: "corrosion_resistance", label: "Corrosion Resistance (%)" },
-    { value: "recyclability", label: "Recyclability (%)" },
-    { value: "sustainability_rating", label: "Sustainability Rating (1-10)" },
-    { value: "ductility", label: "Ductility (%)" },
-    { value: "carbon_footprint", label: "Carbon Footprint (kg CO₂/kg material)" },
-    { value: "density", label: "Density (kg/m³)" },
-    { value: "thermal_conductivity", label: "Thermal Conductivity (W/m·K)" },
-    { value: "hardness", label: "Hardness (HV - Vickers Hardness)" },
-    { value: "youngs_modulus", label: "Young's Modulus (GPa)" },
-    { value: "crashworthiness", label: "Crashworthiness (Rating 1-100)" },
-    { value: "surface_finish", label: "Surface Finish (Rating 1-100)" },
-    { value: "formability", label: "Formability (%)" },
-    { value: "thermal_expansion_coefficient", label: "Thermal Expansion Coefficient (µm/m·K)" },
-    { value: "fatigue_resistance", label: "Fatigue Resistance (%)" },
-    { value: "oxidation_resistance", label: "Oxidation Resistance (%)" },
-    { value: "chemical_stability", label: "Chemical Stability (%)" },
-    { value: "uv_resistance", label: "UV Resistance (%)" },
-    { value: "scratch_resistance", label: "Scratch Resistance (%)" },
-    { value: "noise_reduction_capability", label: "Noise Reduction Capability (Rating 1-100)" },
-    { value: "fire_resistance", label: "Fire Resistance (Rating 1-100)" },
-    { value: "joining_capability", label: "Joining Capability (Rating 1-100)" },
-    { value: "cost_per_unit", label: "Cost per Unit (Currency/Unit)" },
-    { value: "sustainable_sourcing", label: "Sustainable Sourcing (%)" },
-    { value: "thermal_insulation", label: "Thermal Insulation (W/m·K)" },
-    { value: "weight", label: "Weight (kg)" },
-    { value: "machinability", label: "Machinability (Rating 1-100)" },
-    { value: "durability", label: "Durability (Rating 1-100)" },
-    { value: "fracture_toughness", label: "Fracture Toughness (MPa·m¹/²)" },
-    { value: "comfort", label: "Comfort (Rating 1-100)" },
-    { value: "breathability", label: "Breathability (Rating 1-100)" },
-    { value: "resistance_to_deformation", label: "Resistance to Deformation (%)" },
-    { value: "moisture_resistance", label: "Moisture Resistance (%)" },
-    { value: "abrasion_resistance", label: "Abrasion Resistance (%)" },
-    { value: "rolling_resistance", label: "Rolling Resistance (Rating 1-100)" },
-    { value: "heat_resistance", label: "Heat Resistance (Rating 1-100)" },
-    { value: "traction", label: "Traction (Rating 1-100)" },
-    { value: "elasticity", label: "Elasticity (%)" },
-    { value: "puncture_resistance", label: "Puncture Resistance (%)" },
-    { value: "energy_absorption", label: "Energy Absorption (J)" },
+    { value: "tensile_strength", label: "Tensile Strength (MPa)", description: "Measures how much stretching force a material can withstand before breaking, impacting durability." },
+    { value: "impact_resistance", label: "Impact Resistance (J/m²)", description: "Indicates how well a material can absorb energy from impacts, essential for safety and durability." },
+    { value: "corrosion_resistance", label: "Corrosion Resistance (%)", description: "Describes a material's ability to resist deterioration due to environmental exposure, extending its lifespan." },
+    { value: "recyclability", label: "Recyclability (%)", description: "Represents how much of the material can be recovered and reused, contributing to sustainability." },
+    { value: "sustainability_rating", label: "Sustainability Rating (1-10)", description: "Rates the environmental friendliness of the material, considering sourcing, manufacturing, and disposal." },
+    { value: "ductility", label: "Ductility (%)", description: "Measures a material's ability to deform under stress without breaking, useful for shaping and bending." },
+    { value: "carbon_footprint", label: "Carbon Footprint (kg CO₂/kg material)", description: "The amount of CO₂ emissions produced during the lifecycle of the material, affecting environmental impact." },
+    { value: "density", label: "Density (kg/m³)", description: "Indicates the mass per unit volume, affecting weight and overall design considerations for the car." },
+    { value: "thermal_conductivity", label: "Thermal Conductivity (W/m·K)", description: "Measures how well the material conducts heat, important for temperature control and insulation." },
+    { value: "hardness", label: "Hardness (HV - Vickers Hardness)", description: "Describes a material’s resistance to surface indentation, relevant for wear and tear." },
+    { value: "youngs_modulus", label: "Young's Modulus (GPa)", description: "Indicates a material's stiffness, crucial for load-bearing parts that need to maintain shape under stress." },
+    { value: "crashworthiness", label: "Crashworthiness (Rating 1-100)", description: "Measures how well the material absorbs impact in a collision, important for safety." },
+    { value: "surface_finish", label: "Surface Finish (Rating 1-100)", description: "Evaluates the smoothness of the material’s surface, impacting aesthetics and aerodynamics." },
+    { value: "formability", label: "Formability (%)", description: "Indicates how easily the material can be shaped or molded, important for manufacturing processes." },
+    { value: "thermal_expansion_coefficient", label: "Thermal Expansion Coefficient (µm/m·K)", description: "Shows how much a material expands or contracts with temperature changes, affecting fit and performance." },
+    { value: "fatigue_resistance", label: "Fatigue Resistance (%)", description: "Describes the material's ability to withstand repeated stress cycles without failure, important for longevity." },
+    { value: "oxidation_resistance", label: "Oxidation Resistance (%)", description: "Indicates how well a material resists chemical breakdown due to oxygen exposure, extending its durability." },
+    { value: "chemical_stability", label: "Chemical Stability (%)", description: "Describes a material’s ability to resist chemical reactions, ensuring durability in harsh environments." },
+    { value: "uv_resistance", label: "UV Resistance (%)", description: "Indicates how well a material resists degradation due to ultraviolet radiation, important for outdoor use." },
+    { value: "scratch_resistance", label: "Scratch Resistance (%)", description: "Measures the material's ability to resist surface scratches, affecting its appearance and durability." },
+    { value: "noise_reduction_capability", label: "Noise Reduction Capability (Rating 1-100)", description: "Describes how well the material reduces sound transmission, contributing to comfort." },
+    { value: "fire_resistance", label: "Fire Resistance (Rating 1-100)", description: "Measures the material's ability to withstand high temperatures without igniting, crucial for safety." },
+    { value: "joining_capability", label: "Joining Capability (Rating 1-100)", description: "Indicates how easily the material can be bonded or welded to others, important for assembly." },
+    { value: "cost_per_unit", label: "Cost per Unit (Rs./Unit)", description: "The price of the material per unit, affecting the overall budget of the project." },
+    { value: "sustainable_sourcing", label: "Sustainable Sourcing (%)", description: "Shows the percentage of material sourced from environmentally responsible and ethical suppliers." },
+    { value: "thermal_insulation", label: "Thermal Insulation (W/m·K)", description: "Indicates how well the material prevents heat transfer, improving energy efficiency and comfort." },
+    { value: "weight", label: "Weight (kg)", description: "The total weight of the material, affecting vehicle performance, fuel efficiency, and handling." },
+    { value: "machinability", label: "Machinability (Rating 1-100)", description: "Measures how easily the material can be cut or shaped by tools, impacting production efficiency." },
+    { value: "durability", label: "Durability (Rating 1-100)", description: "Rates the material’s ability to withstand wear and tear over time, ensuring long-term reliability." },
+    { value: "fracture_toughness", label: "Fracture Toughness (MPa·m¹/²)", description: "Describes the material’s ability to resist crack propagation, crucial for maintaining structural integrity." },
+    { value: "comfort", label: "Comfort (Rating 1-100)", description: "Evaluates how the material contributes to the overall comfort of passengers, through factors like cushioning or temperature." },
+    { value: "breathability", label: "Breathability (Rating 1-100)", description: "Describes how well the material allows air to pass through, important for maintaining a pleasant environment." },
+    { value: "resistance_to_deformation", label: "Resistance to Deformation (%)", description: "Indicates how well the material retains its shape under stress, crucial for maintaining form and function." },
+    { value: "moisture_resistance", label: "Moisture Resistance (%)", description: "Describes the material’s ability to resist water absorption, preventing damage and degradation." },
+    { value: "abrasion_resistance", label: "Abrasion Resistance (%)", description: "Indicates how well the material resists surface wear due to friction, extending its lifespan." },
+    { value: "rolling_resistance", label: "Rolling Resistance (Rating 1-100)", description: "Measures the resistance a material presents to rolling, affecting fuel efficiency and handling." },
+    { value: "heat_resistance", label: "Heat Resistance (Rating 1-100)", description: "Indicates the material’s ability to withstand high temperatures without losing strength." },
+    { value: "traction", label: "Traction (Rating 1-100)", description: "Describes the material’s grip or friction with surfaces, important for tires and safety." },
+    { value: "elasticity", label: "Elasticity (%)", description: "Indicates how much a material can stretch and return to its original shape, important for flexibility and shock absorption." },
+    { value: "puncture_resistance", label: "Puncture Resistance (%)", description: "Measures the material’s ability to resist piercing forces, important for safety and durability." },
+    { value: "energy_absorption", label: "Energy Absorption (J)", description: "Describes how much energy the material can absorb, important for impact resistance and crash safety." }
   ];
 
 
@@ -77,7 +89,6 @@ export default function ChooseByParts() {
       ...prevValues,
       [property]: value,
     }));
-    console.log(propertyValues)
   };
 
   const handleSubmit = async () => {
@@ -92,7 +103,7 @@ export default function ChooseByParts() {
 
       if (response.ok) {
         const data = await response.json();
-        setRecommendations(data.slice(0, 3)); 
+        setRecommendations(data.slice(0, 3));
       } else {
         console.error('Error fetching recommendations:', response.statusText);
       }
@@ -101,9 +112,37 @@ export default function ChooseByParts() {
     }
   };
 
+  const viewMaterialDetails = (materialName) => {
+    // Generating a dummy report for now
+    setReport(`Detailed report for ${materialName}:
+        - Tensile Strength: 500 MPa
+        - Impact Resistance: 300 J/m²
+        - Sustainability Rating: 8/10
+        - ...`);
+  };
+
+
+  const toggleModal = (description) => {
+    // If the modal is already showing this description, close it. Otherwise, show the new one.
+    if (visibleDescription === description) {
+      setVisibleDescription(null);
+    } else {
+      setVisibleDescription(description);
+    }
+  };
+
+  const closeModalOnClickOutside = () => {
+    setVisibleDescription(null); // Close the modal when clicking anywhere outside
+  };
+
+  useEffect(() => {
+    // Add event listener to close modal on click outside
+    window.addEventListener("click", closeModalOnClickOutside);
+    return () => window.removeEventListener("click", closeModalOnClickOutside);
+  }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" onClick={(e) => e.stopPropagation() /* Prevent closing modal when clicking inside */}>
       <Header />
       <main className="container mx-auto p-6 space-y-8 bg-gradient-to-b from-gray-900 to-gray-700">
         <h2 className="text-5xl font-extrabold mb-12 text-center text-white tracking-tight">
@@ -122,13 +161,10 @@ export default function ChooseByParts() {
             {selectedPart ? (
               <>
                 <h3 className="text-3xl font-bold mb-6 border-b-2 border-white pb-2">
-                  Selected Part:{" "}
-                  <span className="font-light">{selectedPart}</span>
+                  Selected Part: <span className="font-light">{selectedPart}</span>
                 </h3>
 
-                <h3 className="text-2xl font-semibold mt-4 mb-4">
-                  Select Material Properties
-                </h3>
+                <h3 className="text-2xl font-semibold mt-4 mb-4">Select Material Properties</h3>
                 <Select
                   options={materialProperties}
                   isMulti
@@ -146,18 +182,33 @@ export default function ChooseByParts() {
                 />
 
                 {propertyFilters.map((filter) => (
-                  <div key={filter.value} className="mt-6">
+                  <div key={filter.value} className="mt-6 relative">
                     <label className="block text-lg font-medium">
                       {filter.label}
+                      <FaQuestionCircle
+                        className="ml-2 text-white cursor-pointer inline-block"
+                        onClick={(e) => {
+                          e.stopPropagation(); 
+                          toggleModal(filter.description);
+                        }}
+                      />
                     </label>
                     <input
                       type="number"
-                      onChange={(e) =>
-                        handleValueChange(filter.value, e.target.value)
-                      }
+                      onChange={(e) => handleValueChange(filter.value, e.target.value)}
                       className="mt-2 p-4 border text-gray-700 border-gray-300 rounded-lg w-full focus:outline-none focus:ring-4 focus:ring-teal-500"
                       placeholder={`Enter value for ${filter.label}`}
                     />
+
+                    {/* Show modal when clicked on the question mark */}
+                    {visibleDescription === filter.description && (
+                      <div
+                        className="absolute right-[280px] top-3 bg-black text-xs text-white p-4 rounded-lg shadow-lg z-10"
+                        style={{ width: '200px' }}
+                      >
+                        <p>{filter.description}</p>
+                      </div>
+                    )}
                   </div>
                 ))}
 
@@ -176,18 +227,37 @@ export default function ChooseByParts() {
                     <ul className="list-disc pl-5">
                       {recommendations.map((rec, index) => (
                         <li key={index} className="mb-2">
-                          <strong>Material:</strong> {rec.Material} <br />
-                          {/* <strong>Similarity:</strong> {rec.Similarity} <br /> */}
-                          {/* <strong>Recommended Parts:</strong> {rec.Recommended_Parts.join(', ')} */}
+                          <a  
+                            className="text-blue-200 underline"
+                            onClick={() => viewMaterialDetails(rec.Material)}
+                          >
+                            {rec.Material}
+                          </a>{" "}
+                          - <strong>Sustainability Score:</strong> {rec.SustainabilityScore}/10
                         </li>
                       ))}
                     </ul>
                   </div>
                 )}
+                {report && (
+                  <div className="mt-8 bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h3 className="text-2xl font-bold mb-4">Material Report</h3>
+                    <p>{report}</p>
+                    <button
+                      className="mt-4 bg-teal-500 text-white px-4 py-2 rounded-lg"
+                      onClick={() => setReport(null)}
+                    >
+                      Close Report
+                    </button>
+                  </div>
+                )}
               </>
             ) : (
-              <div className="text-xl text-center font-light">
-                Please select a car part to view material properties and recommendations.
+              <div>
+                <h3 className="text-2xl font-semibold">Sustainability Factors</h3>
+                <p className="mt-4 text-lg">
+                  The below shows key sustainability factors we consider while recommending materials.
+                </p>
               </div>
             )}
           </section>
