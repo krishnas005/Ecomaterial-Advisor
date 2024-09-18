@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
+import './buttons.css';
 
 const HeroSection = () => {
   const heroRef = useRef(null);
@@ -50,12 +51,14 @@ const HeroSection = () => {
           </h2>
         </div>
         <Link href="#explore">
-          <div
-            ref={buttonRef}
-            className="inline-block mt-6 px-6 py-3 bg-[#2094f3] text-white font-semibold rounded-lg hover:bg-[#1e83db] transition-colors duration-300 ease-in-out"
-          >
-            Explore Now
-          </div>
+        <button ref={buttonRef} className="button-82-pushable explorebtn mt-6">
+  <span className="button-82-shadow"></span>
+  <span className="button-82-edge"></span>
+  <span className="button-82-front text">
+    Explore Now
+  </span>
+</button>
+
         </Link>
       </div>
     </div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { gsap } from "gsap";
-
+import './buttons.css';
 const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -45,25 +45,25 @@ const Header = () => {
       </div>
 
       <nav className="hidden md:flex flex-1 justify-end gap-8 items-center">
-        <a className="nav-link text-[#0d151c] text-sm font-medium" href="/">
+        <a className="nav-link bt text-[#0d151c] text-sm font-medium" href="/">
           Home
         </a>
         <a
-          className="nav-link text-[#0d151c] text-sm font-medium"
+          className="nav-link bt text-[#0d151c] text-sm font-medium"
           href="/about-us"
         >
           About Us
         </a>
-        <a className="nav-link text-[#0d151c] text-sm font-medium" href="/news">
+        <a className="nav-link bt text-[#0d151c] text-sm font-medium" href="/news">
           News
         </a>
         <a
-          className="nav-link text-[#0d151c] text-sm font-medium"
+          className="nav-link bt text-[#0d151c] text-sm font-medium"
           href="/#explore"
         >
           Explore
         </a>
-        <a className="nav-link text-[#0d151c] text-sm font-medium" href="/login">
+        <a className="nav-link bt text-[#0d151c] text-sm font-medium" href="/login">
           Login
         </a>
       </nav>
