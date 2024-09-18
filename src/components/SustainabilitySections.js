@@ -67,7 +67,7 @@ const SustainabilitySection = () => {
           </li>
           <li>
             <strong>Sustainability Matrix:</strong> A comprehensive assessment
-            system that evaluates each material's environmental impact,
+            system that evaluates each material&apos;s environmental impact,
             recyclability, energy usage, and overall contribution to
             sustainability goals.
           </li>

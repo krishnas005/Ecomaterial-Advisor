@@ -115,7 +115,7 @@ const Header = () => {
             <a className="nav-link text-[#0d151c] text-sm font-medium" href="/">
               Home
             </a>
-            <a className="nav-link text-[#0d151c] text-sm font-medium" href="#">
+            <a className="nav-link text-[#0d151c] text-sm font-medium" href="/about-us">
               About Us
             </a>
             <a
