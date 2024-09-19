@@ -8,7 +8,6 @@ const SustainabilitySection = () => {
   const contentRef = useRef(null);
 
   useEffect(() => {
-    // Fade-in animation for image and content
     gsap.fromTo(
       imageRef.current,
       { opacity: 0, x: -50 },
@@ -22,8 +21,7 @@ const SustainabilitySection = () => {
   }, []);
 
   return (
-    <section className="px-6 py-16 bg-white flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-      {/* Image Section */}
+    <section className="px-6 py-16 bg-white flex flex-col lg:flex-row items-center gap-8 lg:gap-12"> 
       <div
         ref={imageRef}
         className="w-full lg:w-1/2 overflow-hidden rounded-lg shadow-lg"
@@ -34,8 +32,7 @@ const SustainabilitySection = () => {
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 hover:cursor-pointer"
         />
       </div>
-
-      {/* Content Section */}
+ 
       <div
         ref={contentRef}
         className="flex flex-col w-full lg:w-1/2 text-left space-y-6"
@@ -44,41 +41,22 @@ const SustainabilitySection = () => {
           Driving Sustainability with Key Metrics
         </h2>
         <p className="text-gray-600 text-lg leading-relaxed">
-          Our platform evaluates sustainability based on four key factors: Cost
-          effectiveness, Recyclability, Durability, and a comprehensive
-          Sustainability Matrix. These metrics help industries adopt materials
-          that are eco-friendly, durable, and cost-efficient.
+          We evaluate sustainability through four key factors: Cost Effectiveness, Recyclability, Durability, and our Sustainability Matrix, chosen for their impact on eco-friendly practices and long-term performance.
         </p>
         <ul className="list-disc pl-6 space-y-2 text-gray-700">
           <li>
-            <strong>Cost Factor:</strong> Our materials ensure an optimal
-            balance between sustainability and cost-effectiveness, providing
-            value without compromising on eco-friendly standards.
+            <strong>Cost Effectiveness:</strong> Ensures sustainable materials are economically viable.
           </li>
           <li>
-            <strong>Recyclability:</strong> With a focus on the circular economy,
-            90% of our recommended materials are fully recyclable, reducing
-            waste and promoting long-term sustainability.
+            <strong>Recyclability:</strong> Focuses on materials that can be reused or recycled.
           </li>
           <li>
-            <strong>Durability:</strong> High-performance materials designed to
-            last longer and withstand challenging environments, minimizing
-            the need for frequent replacements.
+            <strong>Durability:</strong> Evaluates materials that reduce frequent replacements.
           </li>
           <li>
-            <strong>Sustainability Matrix:</strong> A comprehensive assessment
-            system that evaluates each material&apos;s environmental impact,
-            recyclability, energy usage, and overall contribution to
-            sustainability goals.
+            <strong>Sustainability Matrix:</strong> Assesses environmental and energy impacts holistically.
           </li>
         </ul>
-
-        {/* <a
-          href="#learn-more"
-          className="mt-6 inline-block px-6 py-3 bg-[#2094f3] text-white text-lg font-medium rounded-lg shadow-md hover:bg-[#1574c0] transition-colors duration-300"
-        >
-          Learn More
-        </a> */}
       </div>
     </section>
   );

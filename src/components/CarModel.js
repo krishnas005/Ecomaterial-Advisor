@@ -10,12 +10,13 @@ import { usePart } from '../context/PathContext';
 import { ClipLoader } from 'react-spinners';
 
 const CarModel = () => {
-  const carModel = useGLTF('/untitled.glb');
+  const carModel = useGLTF('/newCarModel.glb');
   const { selectedPart, setSelectedPart } = usePart();
   const [hoveredPart, setHoveredPart] = useState(null);
   const [hoverPosition, setHoverPosition] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showVehicles, setShowVehicles] = useState(true);
+  const [recommendedMaterials, setRecommendedMaterials] = useState([]);
   const carRef = useRef();
 
   useEffect(() => {
@@ -29,20 +30,26 @@ const CarModel = () => {
   }, []);
 
   const handlePartSelect = useCallback(
-    (part) => {
+    async (part) => {
       if (!part) return;
       setSelectedPart(null);
       setShowVehicles(false);
       setIsLoading(true);
 
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(part);
-        }, 1000);
-      }).then((selected) => {
-        setSelectedPart(selected);
+      try {
+        const response = await fetch('http://localhost:5000/api/part-name', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ part_name: part }),
+        });
+        const data = await response.json();
+        setRecommendedMaterials(data);
+        setSelectedPart(part);
+      } catch (error) {
+        console.error('Error fetching materials:', error);
+      } finally {
         setIsLoading(false);
-      });
+      }
     },
     [setSelectedPart]
   );
@@ -95,11 +102,11 @@ const CarModel = () => {
 
       {showVehicles ? (
         <div className="flex flex-col justify-center items-center mt-6 max-w-4xl mx-auto space-y-2">
-          <p className="text-lg text-gray-700 font-bold  ">Choose any vehicle to preview:</p>
+          <p className="text-lg text-gray-700 font-bold">Choose any vehicle to preview:</p>
           <div className="flex justify-center items-center space-x-4 hover:cursor-pointer">
-            <VehicleCard image="/car.webp" name=" "   />
-            <VehicleCard image="/truck.webp" name=" "   />
-            <VehicleCard image="/bike.webp" name=" "   />
+            <VehicleCard image="/car.webp" name=" " />
+            <VehicleCard image="/truck.webp" name=" " />
+            <VehicleCard image="/bike.webp" name=" " />
           </div>
         </div>
       ) : null}
@@ -113,23 +120,24 @@ const CarModel = () => {
               </div>
             ) : selectedPart ? (
               <>
-                <div className="text-xl font-bold text-gray-800 mb-4">
+                <div className="text-xl font-bold text-gray-800 mb-1">
                   Selected Part: {selectedPart}
                 </div>
-                <div className="text-lg font-semibold text-gray-700 mb-4">
-                  Recommended Materials
+                {/* <div className="text-lg font-semibold text-gray-700 mb-0">
+                  Best Recommended Materials
+                </div> */}
+                <div className="overflow-x-auto">
+                  <div className="flex justify-between text-gray-600">
+                    <div className="flex-1 font-semibold">Recommended Materials</div>
+                    <div className="flex-1 font-semibold text-right">Sustainability Score</div>
+                  </div>
+                  {recommendedMaterials.map((material, index) => (
+                    <div key={index} className="flex justify-between py-1 text-gray-500">
+                      <div className="flex-1">{material[0]}</div>
+                      <div className="flex-1 text-right">{material[1]}</div>
+                    </div>
+                  ))}
                 </div>
-                <ul className="grid grid-cols-3 gap-4">
-                  <li className="bg-blue-500 text-white text-center px-4 py-2 rounded-lg shadow-md hover:bg-blue-600">
-                    Material 1
-                  </li>
-                  <li className="bg-blue-500 text-white text-center px-4 py-2 rounded-lg shadow-md hover:bg-blue-600">
-                    Material 2
-                  </li>
-                  <li className="bg-blue-500 text-white text-center px-4 py-2 rounded-lg shadow-md hover:bg-blue-600">
-                    Material 3
-                  </li>
-                </ul>
               </>
             ) : (
               <div className="text-gray-600 text-lg">
@@ -139,20 +147,16 @@ const CarModel = () => {
           </div>
         </div>
       )}
+
+
     </div>
   );
 };
 
 const VehicleCard = ({ image, name }) => {
   return (
-    <div
-      className={`w-32 h-32 group relative bg-white rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-105 m-4 flex items-center justify-center`}
-    >
-      <img
-        src={image}
-        alt={name}
-        className="w-24 h-24 object-contain"
-      />
+    <div className={`w-32 h-32 group relative bg-white rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-105 m-4 flex items-center justify-center`}>
+      <img src={image} alt={name} className="w-24 h-24 object-contain" />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent opacity-0 group-hover:opacity-100 flex items-end justify-center transition-opacity duration-300">
         <span className="text-white font-bold text-lg mb-4">{name}</span>
       </div>

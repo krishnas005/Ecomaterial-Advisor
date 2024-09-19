@@ -51,14 +51,9 @@ const HeroSection = () => {
           </h2>
         </div>
         <Link href="#explore">
-        <button ref={buttonRef} className="button-82-pushable explorebtn mt-6">
-  <span className="button-82-shadow"></span>
-  <span className="button-82-edge"></span>
-  <span className="button-82-front text">
-    Explore Now
-  </span>
-</button>
-
+          <button ref={buttonRef} className="inline-block mt-6 px-4 py-3 bg-[#3bb850] text-white font-semibold rounded-lg hover:bg-[#68d770] transition-colors duration-300 ease-in-out">
+            Explore Now
+          </button>
         </Link>
       </div>
     </div>

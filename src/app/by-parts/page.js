@@ -6,7 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CarModel from "@/components/CarModel";
 import { usePart } from "../../context/PathContext";
-import { Pie } from "react-chartjs-2";
+// import { Pie } from "react-chartjs-2";
 import { FaQuestionCircle } from "react-icons/fa"; 
 
 
@@ -20,7 +20,6 @@ export default function ChooseByParts() {
   const { selectedPart, setSelectedPart } = usePart();
 
   useEffect(() => {
-    // Animating section appearance
     gsap.fromTo(
       ".animated-section",
       { opacity: 0, y: 50 },
@@ -29,7 +28,6 @@ export default function ChooseByParts() {
   }, [selectedPart]);
 
   useEffect(() => {
-    // Clear inputs and recommendations when a new part is selected
     setPropertyFilters([]);
     setPropertyValues({});
     setRecommendations([]);
@@ -113,7 +111,6 @@ export default function ChooseByParts() {
   };
 
   const viewMaterialDetails = (materialName) => {
-    // Generating a dummy report for now
     setReport(`Detailed report for ${materialName}:
         - Tensile Strength: 500 MPa
         - Impact Resistance: 300 J/m²
@@ -123,7 +120,6 @@ export default function ChooseByParts() {
 
 
   const toggleModal = (description) => {
-    // If the modal is already showing this description, close it. Otherwise, show the new one.
     if (visibleDescription === description) {
       setVisibleDescription(null);
     } else {
@@ -132,17 +128,16 @@ export default function ChooseByParts() {
   };
 
   const closeModalOnClickOutside = () => {
-    setVisibleDescription(null); // Close the modal when clicking anywhere outside
+    setVisibleDescription(null); 
   };
 
   useEffect(() => {
-    // Add event listener to close modal on click outside
     window.addEventListener("click", closeModalOnClickOutside);
     return () => window.removeEventListener("click", closeModalOnClickOutside);
   }, []);
 
   return (
-    <div className="min-h-screen" onClick={(e) => e.stopPropagation() /* Prevent closing modal when clicking inside */}>
+    <div className="min-h-screen" onClick={(e) => e.stopPropagation()  }>
       <Header />
       <main className="container mx-auto p-6 space-y-8 bg-gradient-to-b from-gray-900 to-gray-700">
         <h2 className="text-5xl font-extrabold mb-12 text-center text-white tracking-tight">
@@ -199,12 +194,11 @@ export default function ChooseByParts() {
                       className="mt-2 p-4 border text-gray-700 border-gray-300 rounded-lg w-full focus:outline-none focus:ring-4 focus:ring-teal-500"
                       placeholder={`Enter value for ${filter.label}`}
                     />
-
-                    {/* Show modal when clicked on the question mark */}
+ 
                     {visibleDescription === filter.description && (
                       <div
-                        className="absolute right-[280px] top-3 bg-black text-xs text-white p-4 rounded-lg shadow-lg z-10"
-                        style={{ width: '200px' }}
+                        className="absolute right-[280px] top-5 bg-black text-[10px] text-white p-2 rounded-lg shadow-lg z-10"
+                        style={{ width: '160px' }}
                       >
                         <p>{filter.description}</p>
                       </div>
