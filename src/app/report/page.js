@@ -1,10 +1,15 @@
+'use client';
+
 import ClientReportComponent from '@/components/Report';
+import { usePart } from "../../context/PathContext";
 
 const ReportPage = () => {
+
+  const { selectedPart } = usePart();
+
   return (
     <div>
-      {/* You can add server-side logic here if needed */}
-      <ClientReportComponent />
+      <ClientReportComponent material={selectedPart} />
     </div>
   );
 };

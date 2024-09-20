@@ -6,19 +6,17 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CarModel from "@/components/CarModel";
 import { usePart } from "../../context/PathContext";
-// import { Pie } from "react-chartjs-2";
 import { FaQuestionCircle } from "react-icons/fa";
-import Image from 'next/image';
-
+import { useRouter } from 'next/navigation';
 
 export default function ChooseByParts() {
   const [propertyFilters, setPropertyFilters] = useState([]);
   const [propertyValues, setPropertyValues] = useState({});
   const [recommendations, setRecommendations] = useState([]);
   const [visibleDescription, setVisibleDescription] = useState(null);
-  const [report, setReport] = useState(null);
   const resultRef = useRef(null);
-  const { selectedPart, setSelectedPart } = usePart();
+  const { selectedPart, setSelectedPart, selectedMaterial, setSelectedMaterial } = usePart();
+  const router = useRouter();
 
   useEffect(() => {
     gsap.fromTo(
@@ -78,7 +76,6 @@ export default function ChooseByParts() {
     { value: "energy_absorption", label: "Energy Absorption (J)", description: "Describes how much energy the material can absorb, important for impact resistance and crash safety." }
   ];
 
-
   const handlePropertyChange = (selectedOptions) => {
     setPropertyFilters(selectedOptions);
   };
@@ -111,14 +108,10 @@ export default function ChooseByParts() {
     }
   };
 
-  const viewMaterialDetails = (materialName) => {
-    setReport(`Detailed report for ${materialName}:
-        - Tensile Strength: 500 MPa
-        - Impact Resistance: 300 J/m²
-        - Sustainability Rating: 8/10
-        - ...`);
+  const viewMaterialDetails = (material) => {
+    setSelectedMaterial(material)
+    router.push(`/report`);
   };
-
 
   const toggleModal = (description) => {
     if (visibleDescription === description) {
@@ -142,7 +135,7 @@ export default function ChooseByParts() {
       <Header />
       <main className="container mx-auto p-6 space-y-8 bg-gradient-to-b from-gray-900 to-gray-700">
         <h2 className="text-5xl font-extrabold mb-12 text-center text-white tracking-tight">
-          Material Recommendation by Car Part
+          Material Recommendation
         </h2>
 
         <div className="flex flex-col lg:flex-row justify-between items-start lg:space-x-8 space-y-6 lg:space-y-0">
@@ -155,111 +148,87 @@ export default function ChooseByParts() {
             className="animated-section bg-gradient-to-r from-teal-800 to-blue-500 text-white p-8 rounded-xl shadow-md hover:shadow-2xl transition-shadow duration-300 w-full lg:w-1/2 h-[107vh] overflow-y-scroll"
           >
             {selectedPart ? (
-              <>
-                <h3 className="text-3xl font-bold mb-6 border-b-2 border-white pb-2">
-                  Selected Part: <span className="font-light">{selectedPart}</span>
-                </h3>
-
-                <h3 className="text-2xl font-semibold mt-4 mb-4">Select Material Properties</h3>
-                <Select
-                  options={materialProperties}
-                  isMulti
-                  onChange={handlePropertyChange}
-                  placeholder="Select Material Properties"
-                  className="mt-2 text-black"
-                  theme={(theme) => ({
-                    ...theme,
-                    colors: {
-                      ...theme.colors,
-                      primary25: "#4A90E2",
-                      primary: "#4A90E2",
-                    },
-                  })}
-                />
-
-                {propertyFilters.map((filter) => (
-                  <div key={filter.value} className="mt-6 relative">
-                    <label className="block text-lg font-medium">
-                      {filter.label}
-                      <FaQuestionCircle
-                        className="ml-2 text-white cursor-pointer inline-block"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleModal(filter.description);
-                        }}
-                      />
-                    </label>
-                    <input
-                      type="number"
-                      onChange={(e) => handleValueChange(filter.value, e.target.value)}
-                      className="mt-2 p-4 border text-gray-700 border-gray-300 rounded-lg w-full focus:outline-none focus:ring-4 focus:ring-teal-500"
-                      placeholder={`Enter value for ${filter.label}`}
-                    />
-
-                    {visibleDescription === filter.description && (
-                      <div
-                        className="absolute right-[280px] top-5 bg-black text-[10px] text-white p-2 rounded-lg shadow-lg z-10"
-                        style={{ width: '160px' }}
-                      >
-                        <p>{filter.description}</p>
-                      </div>
-                    )}
-                  </div>
-                ))}
-
-                {propertyFilters.length > 0 && (
-                  <button
-                    className="mt-8 w-full bg-teal-500 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-teal-600 transition-all duration-300"
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </button>
-                )}
-
-                {recommendations.length > 0 && (
-                  <div className="mt-8">
-                    <h3 className="text-2xl font-semibold mb-4">Top 3 Recommendations</h3>
-                    <ul className="list-disc pl-5">
-                      {recommendations.map((rec, index) => (
-                        <li key={index} className="mb-2">
-                          <a
-                            className="text-blue-200 underline"
-                            onClick={() => viewMaterialDetails(rec.Material)}
-                          >
-                            {rec.Material}
-                          </a>{" "}
-                          - <strong>Sustainability Score:</strong> {rec.SustainabilityScore}/10
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {report && (
-                  <div className="mt-8 bg-gray-800 p-6 rounded-lg shadow-lg">
-                    <h3 className="text-2xl font-bold mb-4">Material Report</h3>
-                    <p>{report}</p>
-                    <button
-                      className="mt-4 bg-teal-500 text-white px-4 py-2 rounded-lg"
-                      onClick={() => setReport(null)}
-                    >
-                      Close Report
-                    </button>
-                  </div>
-                )}
-              </>
+              <h3 className="text-3xl font-bold mb-6 border-b-2 border-white pb-2">
+                Selected Part: <span className="font-light">{selectedPart}</span>
+              </h3>
             ) : (
-              <div>
-                <h3 className="text-2xl font-semibold">Sustainability Factors</h3>
-                <p className="mt-4 text-lg">
-                  The below shows key sustainability factors we consider while recommending materials.
-                </p>
-                <Image
-                  src="/sustainabilityScore.jpg"
-                  alt="Material Selection"
-                  width={400}
-                  height={300}
-                  className="rounded-lg shadow-md"
+              <h3 className="text-3xl font-bold mb-6 border-b-2 border-white pb-2">
+                No Part Selected
+              </h3>
+            )}
+
+            <h3 className="text-2xl font-semibold mt-4 mb-4">Select Material Properties</h3>
+            <Select
+              options={materialProperties}
+              isMulti
+              onChange={handlePropertyChange}
+              placeholder="Select Material Properties"
+              className="mt-2 text-black"
+              theme={(theme) => ({
+                ...theme,
+                colors: {
+                  ...theme.colors,
+                  primary25: "#4A90E2",
+                  primary: "#4A90E2",
+                },
+              })}
+            />
+
+            {propertyFilters.map((filter) => (
+              <div key={filter.value} className="mt-6 relative">
+                <label className="block text-lg font-medium">
+                  {filter.label}
+                  <FaQuestionCircle
+                    className="ml-2 text-white cursor-pointer inline-block"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleModal(filter.description);
+                    }}
+                  />
+                </label>
+                <input
+                  type="number"
+                  onChange={(e) => handleValueChange(filter.value, e.target.value)}
+                  className="mt-2 p-4 border text-gray-700 border-gray-300 rounded-lg w-full focus:outline-none focus:ring-4 focus:ring-teal-500"
+                  placeholder={`Enter value for ${filter.label}`}
                 />
+
+                {visibleDescription === filter.description && (
+                  <div
+                    className="absolute right-[280px] top-5 bg-black text-[10px] text-white p-2 rounded-lg shadow-lg z-10"
+                    style={{ width: '160px' }}
+                  >
+                    <p>{filter.description}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+
+            {propertyFilters.length > 0 && (
+              <button
+                className="mt-8 w-full bg-teal-500 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-teal-600 transition-all duration-300"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            )}
+
+            {recommendations.length > 0 && (
+              <div className="mt-8">
+                <h3 className="text-2xl font-semibold mb-4">Top 3 Recommendations</h3>
+                <ul className="list-disc pl-5">
+                  {recommendations.map((rec, index) => (
+                    <li key={index} className="mb-2">
+                      <a
+                        className="text-blue-200 underline cursor-pointer"
+                        onClick={() => viewMaterialDetails(rec.Material)}
+                      >
+                        {rec.Material}
+                      </a>{" "}
+                      - <strong>Sustainability Score:</strong> {rec.SustainabilityScore}/10
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </section>

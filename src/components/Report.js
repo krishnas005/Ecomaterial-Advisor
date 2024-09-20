@@ -9,7 +9,7 @@ import Header from './Header';
 import Footer from './Footer';
 import SustainabilityModal from './SustainabilityModel';
 
-const ClientReportComponent = () => {
+const ClientReportComponent = ({material}) => {
     const inputRef = useRef(null);
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -67,7 +67,7 @@ const ClientReportComponent = () => {
                 </div>
 
                 <div className="mb-8 text-center">
-                    <h2 className="text-3xl font-semibold text-black">Recommended Material: SuperEco Material</h2>
+                    <h2 className="text-3xl font-semibold text-black">Recommended Material: Carbon Fiber Reinforced Polymer {material}</h2>
                 </div>
 
                 {/* Sustainability Score and Cost Comparison */}

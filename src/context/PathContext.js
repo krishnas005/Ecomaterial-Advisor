@@ -8,9 +8,9 @@ const PartContext = createContext();
 // Create a provider component
 export function PartProvider({ children }) {
   const [selectedPart, setSelectedPart] = useState(null);
-
+  const [selectedMaterial, setSelectedMaterial] = useState(null);
   return (
-    <PartContext.Provider value={{ selectedPart, setSelectedPart }}>
+    <PartContext.Provider value={{ selectedPart, setSelectedPart, selectedMaterial, setSelectedMaterial }}>
       {children}
     </PartContext.Provider>
   );
