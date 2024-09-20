@@ -1,4 +1,5 @@
 "use client";
+
 import Select from "react-select";
 import gsap from "gsap";
 import { useRef, useState, useEffect } from "react";
@@ -26,45 +27,7 @@ export default function DirectMaterialRecommendation() {
   const materialProperties = [
     { value: "tensile_strength", label: "Tensile Strength (MPa)", description: "Measures how much stretching force a material can withstand before breaking, impacting durability." },
     { value: "impact_resistance", label: "Impact Resistance (J/m²)", description: "Indicates how well a material can absorb energy from impacts, essential for safety and durability." },
-    { value: "corrosion_resistance", label: "Corrosion Resistance (%)", description: "Describes a material's ability to resist deterioration due to environmental exposure, extending its lifespan." },
-    { value: "recyclability", label: "Recyclability (%)", description: "Represents how much of the material can be recovered and reused, contributing to sustainability." },
-    { value: "sustainability_rating", label: "Sustainability Rating (1-10)", description: "Rates the environmental friendliness of the material, considering sourcing, manufacturing, and disposal." },
-    { value: "ductility", label: "Ductility (%)", description: "Measures a material's ability to deform under stress without breaking, useful for shaping and bending." },
-    { value: "carbon_footprint", label: "Carbon Footprint (kg CO₂/kg material)", description: "The amount of CO₂ emissions produced during the lifecycle of the material, affecting environmental impact." },
-    { value: "density", label: "Density (kg/m³)", description: "Indicates the mass per unit volume, affecting weight and overall design considerations for the car." },
-    { value: "thermal_conductivity", label: "Thermal Conductivity (W/m·K)", description: "Measures how well the material conducts heat, important for temperature control and insulation." },
-    { value: "hardness", label: "Hardness (HV - Vickers Hardness)", description: "Describes a material’s resistance to surface indentation, relevant for wear and tear." },
-    { value: "youngs_modulus", label: "Young's Modulus (GPa)", description: "Indicates a material's stiffness, crucial for load-bearing parts that need to maintain shape under stress." },
-    { value: "crashworthiness", label: "Crashworthiness (Rating 1-100)", description: "Measures how well the material absorbs impact in a collision, important for safety." },
-    { value: "surface_finish", label: "Surface Finish (Rating 1-100)", description: "Evaluates the smoothness of the material’s surface, impacting aesthetics and aerodynamics." },
-    { value: "formability", label: "Formability (%)", description: "Indicates how easily the material can be shaped or molded, important for manufacturing processes." },
-    { value: "thermal_expansion_coefficient", label: "Thermal Expansion Coefficient (µm/m·K)", description: "Shows how much a material expands or contracts with temperature changes, affecting fit and performance." },
-    { value: "fatigue_resistance", label: "Fatigue Resistance (%)", description: "Describes the material's ability to withstand repeated stress cycles without failure, important for longevity." },
-    { value: "oxidation_resistance", label: "Oxidation Resistance (%)", description: "Indicates how well a material resists chemical breakdown due to oxygen exposure, extending its durability." },
-    { value: "chemical_stability", label: "Chemical Stability (%)", description: "Describes a material’s ability to resist chemical reactions, ensuring durability in harsh environments." },
-    { value: "uv_resistance", label: "UV Resistance (%)", description: "Indicates how well a material resists degradation due to ultraviolet radiation, important for outdoor use." },
-    { value: "scratch_resistance", label: "Scratch Resistance (%)", description: "Measures the material's ability to resist surface scratches, affecting its appearance and durability." },
-    { value: "noise_reduction_capability", label: "Noise Reduction Capability (Rating 1-100)", description: "Describes how well the material reduces sound transmission, contributing to comfort." },
-    { value: "fire_resistance", label: "Fire Resistance (Rating 1-100)", description: "Measures the material's ability to withstand high temperatures without igniting, crucial for safety." },
-    { value: "joining_capability", label: "Joining Capability (Rating 1-100)", description: "Indicates how easily the material can be bonded or welded to others, important for assembly." },
-    { value: "cost_per_unit", label: "Cost per Unit (Rs./Unit)", description: "The price of the material per unit, affecting the overall budget of the project." },
-    { value: "sustainable_sourcing", label: "Sustainable Sourcing (%)", description: "Shows the percentage of material sourced from environmentally responsible and ethical suppliers." },
-    { value: "thermal_insulation", label: "Thermal Insulation (W/m·K)", description: "Indicates how well the material prevents heat transfer, improving energy efficiency and comfort." },
-    { value: "weight", label: "Weight (kg)", description: "The total weight of the material, affecting vehicle performance, fuel efficiency, and handling." },
-    { value: "machinability", label: "Machinability (Rating 1-100)", description: "Measures how easily the material can be cut or shaped by tools, impacting production efficiency." },
-    { value: "durability", label: "Durability (Rating 1-100)", description: "Rates the material’s ability to withstand wear and tear over time, ensuring long-term reliability." },
-    { value: "fracture_toughness", label: "Fracture Toughness (MPa·m¹/²)", description: "Describes the material’s ability to resist crack propagation, crucial for maintaining structural integrity." },
-    { value: "comfort", label: "Comfort (Rating 1-100)", description: "Evaluates how the material contributes to the overall comfort of passengers, through factors like cushioning or temperature." },
-    { value: "breathability", label: "Breathability (Rating 1-100)", description: "Describes how well the material allows air to pass through, important for maintaining a pleasant environment." },
-    { value: "resistance_to_deformation", label: "Resistance to Deformation (%)", description: "Indicates how well the material retains its shape under stress, crucial for maintaining form and function." },
-    { value: "moisture_resistance", label: "Moisture Resistance (%)", description: "Describes the material’s ability to resist water absorption, preventing damage and degradation." },
-    { value: "abrasion_resistance", label: "Abrasion Resistance (%)", description: "Indicates how well the material resists surface wear due to friction, extending its lifespan." },
-    { value: "rolling_resistance", label: "Rolling Resistance (Rating 1-100)", description: "Measures the resistance a material presents to rolling, affecting fuel efficiency and handling." },
-    { value: "heat_resistance", label: "Heat Resistance (Rating 1-100)", description: "Indicates the material’s ability to withstand high temperatures without losing strength." },
-    { value: "traction", label: "Traction (Rating 1-100)", description: "Describes the material’s grip or friction with surfaces, important for tires and safety." },
-    { value: "elasticity", label: "Elasticity (%)", description: "Indicates how much a material can stretch and return to its original shape, important for flexibility and shock absorption." },
-    { value: "puncture_resistance", label: "Puncture Resistance (%)", description: "Measures the material’s ability to resist piercing forces, important for safety and durability." },
-    { value: "energy_absorption", label: "Energy Absorption (J)", description: "Describes how much energy the material can absorb, important for impact resistance and crash safety." }
+    // add more properties here...
   ];
 
   const handlePropertyChange = (selectedOptions) => {
@@ -129,95 +92,106 @@ export default function DirectMaterialRecommendation() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between bg-gray-100">
       <Header />
 
-      <main className="container mx-auto p-6 space-y-12 animated-section bg-gradient-to-b from-gray-900 to-gray-700 text-white">
-        <h2 className="text-5xl font-extrabold text-center tracking-tight">
+      <main className="container mx-auto p-6 space-y-12 animated-section">
+        <h2 className="text-5xl font-extrabold text-center tracking-tight text-gray-800 mb-8">
           Material Recommendation Based on Properties
         </h2>
 
-        <section ref={resultRef} className="bg-gradient-to-r from-teal-800 to-blue-500 p-10 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 w-full lg:w-2/3 mx-auto">
-          <div className="text-center">
+        {/* Grid layout for image on the left and inputs on the right */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          
+          {/* Left side: Image */}
+          <div className="flex justify-center items-center">
             <Image
-              src="/img.jpg" 
+              src="/sustainabilityScore.jpg" 
               alt="Material Selection"
-              width={200}
-              height={150}
-              className="mx-auto mb-6"
+              width={400}
+              height={300}
+              className="rounded-lg shadow-md"
             />
           </div>
-          <h3 className="text-3xl font-semibold mt-4 mb-8 text-center">Select Material Properties</h3>
 
-          <Select
-            options={materialProperties}
-            isMulti
-            onChange={handlePropertyChange}
-            placeholder="Select Material Properties"
-            className="mt-2 text-black"
-            theme={(theme) => ({
-              ...theme,
-              colors: {
-                ...theme.colors,
-                primary25: "#4A90E2",
-                primary: "#4A90E2",
-              },
-            })}
-          />
+          {/* Right side: Input options */}
+          <div className="bg-white p-8 rounded-lg shadow-lg space-y-8">
+            <h3 className="text-3xl font-semibold text-gray-700 text-center">
+              Select Material Properties
+            </h3>
 
-          {propertyFilters.map((filter) => (
-            <div key={filter.value} className="mt-6 relative animated-section">
-              <label className="block text-lg font-medium">
-                {filter.label}
-                <FaQuestionCircle
-                  className="ml-2 text-white cursor-pointer inline-block"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleModal(filter.description);
-                  }}
+            <Select
+              options={materialProperties}
+              isMulti
+              onChange={handlePropertyChange}
+              placeholder="Select Material Properties"
+              className="mt-2"
+              theme={(theme) => ({
+                ...theme,
+                colors: {
+                  ...theme.colors,
+                  primary25: "#4A90E2",
+                  primary: "#4A90E2",
+                },
+              })}
+            />
+
+            {/* Dynamic input for selected properties */}
+            {propertyFilters.map((filter) => (
+              <div key={filter.value} className="mt-6 relative animated-section">
+                <label className="block text-lg font-medium text-gray-800">
+                  {filter.label}
+                  <FaQuestionCircle
+                    className="ml-2 text-gray-500 cursor-pointer inline-block"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleModal(filter.description);
+                    }}
+                  />
+                </label>
+                <input
+                  type="number"
+                  className="mt-1 p-3 border rounded-lg w-full text-gray-700"
+                  onChange={(e) => handleValueChange(filter.value, e.target.value)}
                 />
-              </label>
-              {visibleDescription === filter.description && (
-                <div className="absolute top-full mt-2 left-0 w-full bg-white text-black p-4 rounded shadow-lg z-10">
-                  <p>{filter.description}</p>
-                </div>
-              )}
-              <input
-                type="number"
-                placeholder={`Enter value for ${filter.label}`}
-                className="mt-2 p-2 w-full rounded-md text-black"
-                onChange={(e) => handleValueChange(filter.value, e.target.value)}
-              />
-            </div>
-          ))}
+              </div>
+            ))}
 
-          <button
-            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300"
-            onClick={handleSubmit}
-          >
-            Get Recommendations
-          </button>
+            {/* Submit button */}
+            <button 
+              className="bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg w-full hover:bg-blue-600 transition"
+              onClick={handleSubmit}
+            >
+              Get Recommendations
+            </button>
+          </div>
+
         </section>
 
-        {recommendations.length > 0 && (
-          <div className="mt-10 animated-section">
-            <h3 className="text-3xl font-bold mb-4 text-center">Top Material Recommendations</h3>
-            <ul className="space-y-4">
-              {recommendations.map((rec, idx) => (
-                <li key={idx} className="p-4 bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-                  <h4 className="text-2xl font-semibold">{rec.name}</h4>
-                  <p>{rec.description}</p>
-                  <button
-                    className="mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-1 px-3 rounded-lg"
-                    onClick={() => viewMaterialDetails(rec.name)}
-                  >
-                    View Details
-                  </button>
-                </li>
-              ))}
-            </ul>
-            {report && <p className="mt-6 text-center text-lg">{report}</p>}
+        {/* Recommendations and Report */}
+        <section ref={resultRef} className="text-center mt-12">
+          <h3 className="text-4xl font-bold text-gray-800">Material Recommendations</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+            {recommendations.map((recommendation, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                <h4 className="text-2xl font-semibold mb-4">{recommendation.name}</h4>
+                <button 
+                  className="bg-teal-500 text-white py-2 px-4 rounded-lg"
+                  onClick={() => viewMaterialDetails(recommendation.name)}
+                >
+                  View Details
+                </button>
+              </div>
+            ))}
           </div>
+        </section>
+
+        {/* Report */}
+        {report && (
+          <section className="mt-12 bg-white p-6 rounded-lg shadow-lg">
+            <h4 className="text-3xl font-semibold text-gray-800">Material Report</h4>
+            <p className="mt-4 text-gray-600">{report}</p>
+          </section>
         )}
       </main>
 

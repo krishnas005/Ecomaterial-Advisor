@@ -7,14 +7,15 @@ import Footer from "@/components/Footer";
 import CarModel from "@/components/CarModel";
 import { usePart } from "../../context/PathContext";
 // import { Pie } from "react-chartjs-2";
-import { FaQuestionCircle } from "react-icons/fa"; 
+import { FaQuestionCircle } from "react-icons/fa";
+import Image from 'next/image';
 
 
 export default function ChooseByParts() {
   const [propertyFilters, setPropertyFilters] = useState([]);
   const [propertyValues, setPropertyValues] = useState({});
   const [recommendations, setRecommendations] = useState([]);
-  const [visibleDescription, setVisibleDescription] = useState(null); 
+  const [visibleDescription, setVisibleDescription] = useState(null);
   const [report, setReport] = useState(null);
   const resultRef = useRef(null);
   const { selectedPart, setSelectedPart } = usePart();
@@ -128,7 +129,7 @@ export default function ChooseByParts() {
   };
 
   const closeModalOnClickOutside = () => {
-    setVisibleDescription(null); 
+    setVisibleDescription(null);
   };
 
   useEffect(() => {
@@ -137,7 +138,7 @@ export default function ChooseByParts() {
   }, []);
 
   return (
-    <div className="min-h-screen" onClick={(e) => e.stopPropagation()  }>
+    <div className="min-h-screen" onClick={(e) => e.stopPropagation()}>
       <Header />
       <main className="container mx-auto p-6 space-y-8 bg-gradient-to-b from-gray-900 to-gray-700">
         <h2 className="text-5xl font-extrabold mb-12 text-center text-white tracking-tight">
@@ -183,7 +184,7 @@ export default function ChooseByParts() {
                       <FaQuestionCircle
                         className="ml-2 text-white cursor-pointer inline-block"
                         onClick={(e) => {
-                          e.stopPropagation(); 
+                          e.stopPropagation();
                           toggleModal(filter.description);
                         }}
                       />
@@ -194,7 +195,7 @@ export default function ChooseByParts() {
                       className="mt-2 p-4 border text-gray-700 border-gray-300 rounded-lg w-full focus:outline-none focus:ring-4 focus:ring-teal-500"
                       placeholder={`Enter value for ${filter.label}`}
                     />
- 
+
                     {visibleDescription === filter.description && (
                       <div
                         className="absolute right-[280px] top-5 bg-black text-[10px] text-white p-2 rounded-lg shadow-lg z-10"
@@ -221,7 +222,7 @@ export default function ChooseByParts() {
                     <ul className="list-disc pl-5">
                       {recommendations.map((rec, index) => (
                         <li key={index} className="mb-2">
-                          <a  
+                          <a
                             className="text-blue-200 underline"
                             onClick={() => viewMaterialDetails(rec.Material)}
                           >
@@ -252,6 +253,13 @@ export default function ChooseByParts() {
                 <p className="mt-4 text-lg">
                   The below shows key sustainability factors we consider while recommending materials.
                 </p>
+                <Image
+                  src="/sustainabilityScore.jpg"
+                  alt="Material Selection"
+                  width={400}
+                  height={300}
+                  className="rounded-lg shadow-md"
+                />
               </div>
             )}
           </section>
