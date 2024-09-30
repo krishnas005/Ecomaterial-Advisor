@@ -153,7 +153,7 @@ export default function ChooseByParts() {
               </h3>
             ) : (
               <h3 className="text-3xl font-bold mb-6 border-b-2 border-white pb-2">
-                No Part Selected
+                Select Properties
               </h3>
             )}
 
