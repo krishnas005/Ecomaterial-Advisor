@@ -109,9 +109,10 @@ export default function ChooseByParts() {
   };
 
   const viewMaterialDetails = (material) => {
-    setSelectedMaterial(material)
-    router.push(`/report`);
+    const queryString = encodeURIComponent(JSON.stringify(material));
+    router.push(`/report?material=${queryString}`);
   };
+  
 
   const toggleModal = (description) => {
     if (visibleDescription === description) {

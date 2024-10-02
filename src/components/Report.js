@@ -67,7 +67,7 @@ const ClientReportComponent = ({material}) => {
                 </div>
 
                 <div className="mb-8 text-center">
-                    <h2 className="text-3xl font-semibold text-black">Recommended Material: Carbon Fiber Reinforced Polymer {material}</h2>
+                    <h2 className="text-3xl font-semibold text-black">Recommended Material: {material}</h2>
                 </div>
 
                 {/* Sustainability Score and Cost Comparison */}
@@ -105,8 +105,8 @@ const ClientReportComponent = ({material}) => {
                 </div>
 
                 {/* Why Our Recommended Material is Better */}
-                <div className="mb-8 text-center">
-                    <h3 className="text-2xl font-semibold text-black">Why Our Recommended Material is Better</h3>
+                <div className="mb-8">
+                    <h3 className="text-2xl font-semibold text-black text-center">Why Our Recommended Material is Better</h3>
                     <ul className="list-disc list-inside text-lg mt-2 text-black mx-auto max-w-lg">
                         <li>Better performance in sustainability and durability</li>
                         <li>Lower cost by 30%</li>

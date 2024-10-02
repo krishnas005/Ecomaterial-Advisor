@@ -1,13 +1,13 @@
 'use client';
 
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
-import React, { useState, useRef, useEffect, useCallback } from 'react';
 import gsap from 'gsap';
-import 'tailwindcss/tailwind.css';
 import { usePart } from '../context/PathContext';
 import { ClipLoader } from 'react-spinners';
+import SustainabilityModal from './SustainabilityModel';
 
 const CarModel = () => {
   const carModel = useGLTF('/newCarModel.glb');
@@ -17,14 +17,15 @@ const CarModel = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showVehicles, setShowVehicles] = useState(true);
   const [recommendedMaterials, setRecommendedMaterials] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
   const carRef = useRef();
 
   useEffect(() => {
     if (carRef.current) {
       gsap.fromTo(
-        carRef.current.position,
-        { x: 2, y: 5, z: 4 },
-        { x: 0, y: 0, z: 0, duration: 1.5, ease: 'power2.out' }
+        carRef.current.rotation,
+        { y: Math.PI },
+        { y: 0, duration: 1.5, ease: 'power2.out' }
       );
     }
   }, []);
@@ -56,7 +57,6 @@ const CarModel = () => {
 
   return (
     <div className="relative flex flex-col h-screen bg-gray-100">
-      {/* Top part with 3D model */}
       <div className="w-full h-3/4 flex items-center justify-center">
         <div className="relative w-full h-full max-w-screen-lg">
           <Canvas
@@ -64,16 +64,14 @@ const CarModel = () => {
             camera={{ position: [-6, 3, 10], fov: 40, near: 0.01, far: 1000 }}
           >
             <OrbitControls
-              autoRotate
               enableZoom={true}
               enablePan={false}
-              autoRotateSpeed={1.2}
-              minDistance={10}
-              maxDistance={18}
+              minDistance={8}
+              maxDistance={20}
             />
-            <ambientLight intensity={0.9} />
-            <directionalLight position={[5, 5, 5]} intensity={2.5} />
-            <spotLight position={[10, 10, 10]} angle={0.3} penumbra={1} intensity={2.5} />
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[5, 5, 5]} intensity={1} />
+            <spotLight position={[10, 10, 10]} angle={0.3} penumbra={1} intensity={1.5} />
 
             <primitive ref={carRef} object={carModel.scene} scale={1.5} />
 
@@ -87,11 +85,11 @@ const CarModel = () => {
 
           {hoveredPart && hoverPosition && (
             <div
-              className="absolute bg-gray-900 text-white text-sm px-2 py-1 rounded-md shadow-md"
+              className="absolute bg-gray-900 text-white text-sm px-2 py-1 rounded-md shadow-md pointer-events-none"
               style={{
                 left: `${hoverPosition.x}px`,
                 top: `${hoverPosition.y}px`,
-                transform: 'translate(-50%, -150%)',
+                transform: 'translate(-50%, -100%)',
               }}
             >
               {hoveredPart}
@@ -103,10 +101,10 @@ const CarModel = () => {
       {showVehicles ? (
         <div className="flex flex-col justify-center items-center mt-6 max-w-4xl mx-auto space-y-2">
           <p className="text-lg text-gray-700 font-bold">Choose any vehicle to preview:</p>
-          <div className="flex justify-center items-center space-x-4 hover:cursor-pointer">
-            <VehicleCard image="/car.webp" name=" " />
-            <VehicleCard image="/truck.webp" name=" " />
-            <VehicleCard image="/bike.webp" name=" " />
+          <div className="flex justify-center items-center space-x-4">
+            <VehicleCard image="/car.webp" name="Car" />
+            <VehicleCard image="/truck.webp" name="Truck" />
+            <VehicleCard image="/bike.webp" name="Bike" />
           </div>
         </div>
       ) : null}
@@ -120,23 +118,32 @@ const CarModel = () => {
               </div>
             ) : selectedPart ? (
               <>
-                <div className="text-xl font-bold text-gray-800 mb-1">
+                <div className="text-xl font-bold text-gray-800 mb-4">
                   Selected Part: {selectedPart}
                 </div>
-                {/* <div className="text-lg font-semibold text-gray-700 mb-0">
-                  Best Recommended Materials
-                </div> */}
                 <div className="overflow-x-auto">
-                  <div className="flex justify-between text-gray-600">
-                    <div className="flex-1 font-semibold">Recommended Materials</div>
-                    <div className="flex-1 font-semibold text-right">Sustainability Score</div>
-                  </div>
-                  {recommendedMaterials.map((material, index) => (
-                    <div key={index} className="flex justify-between py-1 text-gray-500">
-                      <div className="flex-1">{material[0]}</div>
-                      <div className="flex-1 text-right">{material[1]}</div>
-                    </div>
-                  ))}
+                  <table className="w-full">
+                    <thead>
+                      <tr className="">
+                        <th className="text-left pb-1 font-semibold text-gray-600">Recommended Materials</th>
+                        <th className="text-right pb-1 font-semibold text-gray-600">Sustainability Score <span
+                          className="cursor-pointer text-blue-600 ml-2"
+                          onClick={() => setModalOpen(true)}
+                        >
+                          ?
+                        </span></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {recommendedMaterials.map((material, index) => (
+                        <tr key={index} className="">
+                          <td className="py-1 text-gray-700">{material[0]}</td>
+                          <td className="py-1 text-right text-gray-700">{material[1]}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </>
             ) : (
@@ -147,18 +154,17 @@ const CarModel = () => {
           </div>
         </div>
       )}
-
-
+      {modalOpen && <SustainabilityModal onClose={() => setModalOpen(false)} />}
     </div>
   );
 };
 
 const VehicleCard = ({ image, name }) => {
   return (
-    <div className={`w-32 h-32 group relative bg-white rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-105 m-4 flex items-center justify-center`}>
+    <div className="w-32 h-32 group relative bg-white rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-xl m-4 flex items-center justify-center cursor-pointer">
       <img src={image} alt={name} className="w-24 h-24 object-contain" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent opacity-0 group-hover:opacity-100 flex items-end justify-center transition-opacity duration-300">
-        <span className="text-white font-bold text-lg mb-4">{name}</span>
+      <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+        <span className="text-white font-bold text-lg">{name}</span>
       </div>
     </div>
   );
@@ -170,8 +176,9 @@ const InteractiveCar = ({ carModel, setHoveredPart, setHoverPosition, onPartSele
   const { camera, gl } = useThree();
 
   const handlePointerMove = useCallback((event) => {
-    mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    const rect = gl.domElement.getBoundingClientRect();
+    mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
     raycaster.current.setFromCamera(mouse.current, camera);
     const intersects = raycaster.current.intersectObjects(carModel.scene.children, true);
@@ -180,37 +187,38 @@ const InteractiveCar = ({ carModel, setHoveredPart, setHoverPosition, onPartSele
       const hoveredPart = intersects[0].object;
       setHoveredPart(hoveredPart.name);
 
-      const partPosition = hoveredPart.getWorldPosition(new THREE.Vector3());
-      const screenPosition = partPosition.clone().project(camera);
-      const x = (screenPosition.x * 0.5 + 0.5) * window.innerWidth;
-      const y = (-screenPosition.y * 0.5 + 0.5) * window.innerHeight;
+      const screenPosition = intersects[0].point.clone().project(camera);
+      const x = (screenPosition.x * 0.5 + 0.5) * rect.width + rect.left;
+      const y = (-screenPosition.y * 0.5 + 0.5) * rect.height + rect.top;
       setHoverPosition({ x, y });
     } else {
       setHoveredPart(null);
       setHoverPosition(null);
     }
-  }, [camera, carModel.scene.children, setHoveredPart, setHoverPosition]);
+  }, [camera, carModel.scene.children, setHoveredPart, setHoverPosition, gl]);
 
   const handlePointerClick = useCallback((event) => {
-    mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    const rect = gl.domElement.getBoundingClientRect();
+    mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
     raycaster.current.setFromCamera(mouse.current, camera);
     const intersects = raycaster.current.intersectObjects(carModel.scene.children, true);
 
     if (intersects.length > 0) {
-      const selectedPart = intersects[0].object.name;
-      onPartSelect(selectedPart);
+      const selectedPart = intersects[0].object;
+      onPartSelect(selectedPart.name);
     }
-  }, [camera, carModel.scene.children, onPartSelect]);
+  }, [camera, carModel.scene.children, onPartSelect, gl]);
 
   useEffect(() => {
-    gl.domElement.addEventListener('pointermove', handlePointerMove);
-    gl.domElement.addEventListener('pointerdown', handlePointerClick);
+    const domElement = gl.domElement;
+    domElement.addEventListener('pointermove', handlePointerMove);
+    domElement.addEventListener('pointerdown', handlePointerClick);
 
     return () => {
-      gl.domElement.removeEventListener('pointermove', handlePointerMove);
-      gl.domElement.removeEventListener('pointerdown', handlePointerClick);
+      domElement.removeEventListener('pointermove', handlePointerMove);
+      domElement.removeEventListener('pointerdown', handlePointerClick);
     };
   }, [gl.domElement, handlePointerMove, handlePointerClick]);
 
