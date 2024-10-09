@@ -8,14 +8,15 @@ import CarModel from "@/components/CarModel";
 import { usePart } from "../../context/PathContext";
 import { FaQuestionCircle } from "react-icons/fa";
 import { useRouter } from 'next/navigation';
+import EarthCanvas from "@/components/Earth";
 
-export default function ChooseByParts() {
+export default function ChoosePage() {
   const [propertyFilters, setPropertyFilters] = useState([]);
   const [propertyValues, setPropertyValues] = useState({});
   const [recommendations, setRecommendations] = useState([]);
   const [visibleDescription, setVisibleDescription] = useState(null);
   const resultRef = useRef(null);
-  const { selectedPart, setSelectedPart, selectedMaterial, setSelectedMaterial } = usePart();
+  const { selectedPart, setSelectedPart } = usePart();
   const router = useRouter();
 
   useEffect(() => {
@@ -112,7 +113,7 @@ export default function ChooseByParts() {
     const queryString = encodeURIComponent(JSON.stringify(material));
     router.push(`/report?material=${queryString}`);
   };
-  
+
 
   const toggleModal = (description) => {
     if (visibleDescription === description) {
@@ -153,9 +154,12 @@ export default function ChooseByParts() {
                 Selected Part: <span className="font-light">{selectedPart}</span>
               </h3>
             ) : (
-              <h3 className="text-3xl font-bold mb-6 border-b-2 border-white pb-2">
-                Select Properties
-              </h3>
+              <div>
+                <h3 className="text-3xl font-bold mb-6 border-b-2 border-white pb-2">
+                  Select Properties
+                </h3>
+
+              </div>
             )}
 
             <h3 className="text-2xl font-semibold mt-4 mb-4">Select Material Properties</h3>
@@ -174,7 +178,7 @@ export default function ChooseByParts() {
                 },
               })}
             />
-
+            {selectedPart || propertyFilters.length > 0 ? null : <EarthCanvas />}
             {propertyFilters.map((filter) => (
               <div key={filter.value} className="mt-6 relative">
                 <label className="block text-lg font-medium">

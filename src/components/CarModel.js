@@ -118,7 +118,7 @@ const CarModel = () => {
               </div>
             ) : selectedPart ? (
               <>
-                <div className="text-xl font-bold text-gray-800 mb-4">
+                <div className="text-xl font-bold text-gray-800 mb-2">
                   Selected Part: {selectedPart}
                 </div>
                 <div className="overflow-x-auto">
@@ -127,7 +127,7 @@ const CarModel = () => {
                       <tr className="">
                         <th className="text-left pb-1 font-semibold text-gray-600">Recommended Materials</th>
                         <th className="text-right pb-1 font-semibold text-gray-600">Sustainability Score <span
-                          className="cursor-pointer text-blue-600 ml-2"
+                          className="cursor-pointer text-blue-600"
                           onClick={() => setModalOpen(true)}
                         >
                           ?
