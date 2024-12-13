@@ -63,6 +63,12 @@ const Header = () => {
         >
           Explore
         </a>
+        <a
+          className="nav-link bt text-[#0d151c] text-sm font-medium"
+          href="/alloy"
+        >
+          Alloy
+        </a>
         <a className="nav-link bt text-[#0d151c] text-sm font-medium" href="/login">
           Login
         </a>

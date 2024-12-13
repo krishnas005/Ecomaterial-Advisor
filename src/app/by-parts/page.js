@@ -114,7 +114,6 @@ export default function ChoosePage() {
     router.push(`/report?material=${queryString}`);
   };
 
-
   const toggleModal = (description) => {
     if (visibleDescription === description) {
       setVisibleDescription(null);
@@ -230,10 +229,15 @@ export default function ChoosePage() {
                       >
                         {rec.Material}
                       </a>{" "}
-                      - <strong>Sustainability Score:</strong> {rec.SustainabilityScore}/10
                     </li>
                   ))}
                 </ul>
+                <button
+                  className="mt-6 w-full bg-yellow-500 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-yellow-600 transition-all duration-300"
+                  onClick={() => router.push('/alloy')}
+                >
+                  Not satisfied with the recommendation? Generate alloy based on requirements
+                </button>
               </div>
             )}
           </section>
