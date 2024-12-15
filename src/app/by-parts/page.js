@@ -90,7 +90,8 @@ export default function ChoosePage() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/recommend', {
+      // const response = await fetch('http://localhost:5000/api/recommend', {
+        const response = await fetch('https://ecomaterial-advisor-api-guhegzaea3fnewdk.centralindia-01.azurewebsites.net/api/recommend', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -28,7 +28,8 @@ const AlloyGenerator = () => {
     setResult(null);
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/generate-alloy', {
+      // const response = await fetch('http://127.0.0.1:5000/api/generate-alloy', {
+        const response = await fetch('https://ecomaterial-advisor-api-guhegzaea3fnewdk.centralindia-01.azurewebsites.net/api/generate-alloy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

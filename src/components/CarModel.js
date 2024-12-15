@@ -35,7 +35,8 @@ const CarModel = () => {
       setIsLoading(true);
 
       try {
-        const response = await fetch('http://localhost:5000/api/part-name', {
+        // const response = await fetch('http://localhost:5000/api/part-name', {
+          const response = await fetch('https://ecomaterial-advisor-api-guhegzaea3fnewdk.centralindia-01.azurewebsites.net/api/part-name', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ part_name: part }),
