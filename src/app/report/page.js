@@ -1,14 +1,16 @@
 'use client';
-
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { useSearchParams } from 'next/navigation';
-import ClientReportComponent from '@/components/Report';
 
-const ReportPage = () => {
+// Lazy load the ClientReportComponent
+const ClientReportComponent = lazy(() => import('@/components/Report'));
+
+// Separate component to handle material parsing
+const ReportContent = () => {
   const searchParams = useSearchParams();
-  const [material, setMaterial] = useState(null);
+  const [material, setMaterial] = React.useState(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const materialParam = searchParams.get('material');
     if (materialParam) {
       try {
@@ -23,13 +25,23 @@ const ReportPage = () => {
 
   return (
     <div>
-      {/* Pass the material to the ClientReportComponent */}
       {material ? (
-        <ClientReportComponent material={material} />
+        <Suspense fallback={<p>Loading report...</p>}>
+          <ClientReportComponent material={material} />
+        </Suspense>
       ) : (
         <p>Loading material details...</p>
       )}
     </div>
+  );
+};
+
+// Main page component wrapped in Suspense
+const ReportPage = () => {
+  return (
+    <Suspense fallback={<p>Loading page...</p>}>
+      <ReportContent />
+    </Suspense>
   );
 };
 
